@@ -75,7 +75,7 @@ namespace flp2midi
                 SetConsoleMode(hOut, dwMode);
 
                 Console.SetWindowSize(150, 40);
-                Console.WriteLine("[2J[H[0m[1m[90m[96m >  flp2midi | ver1.6.2");
+                Console.WriteLine("[2J[H[0m[1m[90m[96m >  flp2midi | ver1.6.3");
                 IntPtr handle = GetConsoleWindow();
 
                 ShowWindow(handle, SW_SHOW);
@@ -119,7 +119,7 @@ namespace flp2midi
                     process.Start();
                     using (StreamWriter sw = process.StandardInput)
                     {
-                        sw.WriteLine("Set-Location $PSScriptRoot;Add-Type -AssemblyName System.Windows.Forms;$browsefiles = New-Object System.Windows.Forms.OpenFileDialog;$browsefiles.Filter = \"FL Studio Project Files (*.flp)|*.flp\";$browsefiles.Title = \"Please Select Your FL Studio Project File...\";if ($browsefiles.ShowDialog() -eq 'OK'){;$form = New-Object System.Windows.Forms.Form;$form.Text = \"flp2midi v1.6.2\";$form.Size = New-Object System.Drawing.Size(300,320);$form.StartPosition = \"CenterScreen\";$form.FormBorderStyle = \"FixedToolWindow\";$form.TopMost = $true;$title = New-Object System.Windows.Forms.Label;$title.Font = \"dosis,18\";$title.Text = \"flp2midi v1.6.2\";$title.TextAlign = \"MiddleCenter\";$title.Size = \"300,35\";$title.Location = New-Object System.Drawing.Point(0,20);$text = New-Object System.Windows.Forms.Label;$text.Font = \"dosis,12\";$text.Text = \"options: \";$text.TextAlign = \"MiddleLeft\";$text.Size = \"70,20\";$text.Location = New-Object System.Drawing.Point(15,70);$checkbox1 = New-Object System.Windows.Forms.CheckBox;$checkbox1.Text = \"Enforce mapping color to channel\";$checkbox1.Font = \"dosis,10\";$checkbox1.TextAlign = \"MiddleLeft\";$checkbox1.Size = \"250,20\";$checkbox1.Location = New-Object System.Drawing.Point(15,100);$checkbox2 = New-Object System.Windows.Forms.CheckBox;$checkbox2.Text = \"Echo effect (beta)\";$checkbox2.Font = \"dosis,10\";$checkbox2.TextAlign = \"MiddleLeft\";$checkbox2.Size = \"250,20\";$checkbox2.Location = New-Object System.Drawing.Point(15,130);$checkbox3 = New-Object System.Windows.Forms.CheckBox;$checkbox3.Text = \"Export muted patterns\";$checkbox3.Font = \"dosis,10\";$checkbox3.TextAlign = \"MiddleLeft\";$checkbox3.Size = \"250,20\";$checkbox3.Location = New-Object System.Drawing.Point(15,160);$checkbox4 = New-Object System.Windows.Forms.CheckBox;$checkbox4.Text = \"132 keys\";$checkbox4.Font = \"dosis,10\";$checkbox4.TextAlign = \"MiddleLeft\";$checkbox4.Size = \"250,20\";$checkbox4.Location = New-Object System.Drawing.Point(15,190);$checkbox5 = New-Object System.Windows.Forms.CheckBox;$checkbox5.Text = \"Full velocity\";$checkbox5.Font = \"dosis,10\";$checkbox5.TextAlign = \"MiddleLeft\";$checkbox5.Size = \"250,20\";$checkbox5.Location = New-Object System.Drawing.Point(15,220);$button = New-Object System.Windows.Forms.Button;$button.Text = \"Execute\";$button.Font = \"dosis,12\";$button.TextAlign = \"MiddleCenter\";$button.Location = New-Object System.Drawing.Point(200,250);$button.Add_Click({;$arguments = @();$path = $browsefiles.FileName;$arguments += \"`\"$path`\"\";if ($checkbox1.Checked) { $arguments += \" -c\" };if ($checkbox2.Checked) { $arguments += \" -e\" };if ($checkbox3.Checked) { $arguments += \" -m\" };if ($checkbox4.Checked) { $arguments += \" -x\" };if ($checkbox5.Checked) { $arguments += \" -f\" };$form.Close();Start-Process -FilePath \"" + System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName + "\" -ArgumentList $arguments -Wait;});$form.Controls.Add($title);$form.Controls.Add($text);$form.Controls.Add($checkbox1);$form.Controls.Add($checkbox2);$form.Controls.Add($checkbox3);$form.Controls.Add($checkbox4);$form.Controls.Add($checkbox5);$form.Controls.Add($button);[Windows.Forms.Application]::Run($form);}");
+                        sw.WriteLine("Set-Location $PSScriptRoot;Add-Type -AssemblyName System.Windows.Forms;$browsefiles = New-Object System.Windows.Forms.OpenFileDialog;$browsefiles.Filter = \"FL Studio Project Files (*.flp)|*.flp\";$browsefiles.Title = \"Please Select Your FL Studio Project File...\";if ($browsefiles.ShowDialog() -eq 'OK'){;$form = New-Object System.Windows.Forms.Form;$form.Text = \"flp2midi v1.6.3\";$form.Size = New-Object System.Drawing.Size(300,320);$form.StartPosition = \"CenterScreen\";$form.FormBorderStyle = \"FixedToolWindow\";$form.TopMost = $true;$title = New-Object System.Windows.Forms.Label;$title.Font = \"dosis,18\";$title.Text = \"flp2midi v1.6.3\";$title.TextAlign = \"MiddleCenter\";$title.Size = \"300,35\";$title.Location = New-Object System.Drawing.Point(0,20);$text = New-Object System.Windows.Forms.Label;$text.Font = \"dosis,12\";$text.Text = \"options: \";$text.TextAlign = \"MiddleLeft\";$text.Size = \"70,20\";$text.Location = New-Object System.Drawing.Point(15,70);$checkbox1 = New-Object System.Windows.Forms.CheckBox;$checkbox1.Text = \"Enforce mapping color to channel\";$checkbox1.Font = \"dosis,10\";$checkbox1.TextAlign = \"MiddleLeft\";$checkbox1.Size = \"250,20\";$checkbox1.Location = New-Object System.Drawing.Point(15,100);$checkbox2 = New-Object System.Windows.Forms.CheckBox;$checkbox2.Text = \"Echo effect (beta)\";$checkbox2.Font = \"dosis,10\";$checkbox2.TextAlign = \"MiddleLeft\";$checkbox2.Size = \"250,20\";$checkbox2.Location = New-Object System.Drawing.Point(15,130);$checkbox3 = New-Object System.Windows.Forms.CheckBox;$checkbox3.Text = \"Export muted patterns\";$checkbox3.Font = \"dosis,10\";$checkbox3.TextAlign = \"MiddleLeft\";$checkbox3.Size = \"250,20\";$checkbox3.Location = New-Object System.Drawing.Point(15,160);$checkbox4 = New-Object System.Windows.Forms.CheckBox;$checkbox4.Text = \"132 keys\";$checkbox4.Font = \"dosis,10\";$checkbox4.TextAlign = \"MiddleLeft\";$checkbox4.Size = \"250,20\";$checkbox4.Location = New-Object System.Drawing.Point(15,190);$checkbox5 = New-Object System.Windows.Forms.CheckBox;$checkbox5.Text = \"Full velocity\";$checkbox5.Font = \"dosis,10\";$checkbox5.TextAlign = \"MiddleLeft\";$checkbox5.Size = \"250,20\";$checkbox5.Location = New-Object System.Drawing.Point(15,220);$button = New-Object System.Windows.Forms.Button;$button.Text = \"Execute\";$button.Font = \"dosis,12\";$button.TextAlign = \"MiddleCenter\";$button.Location = New-Object System.Drawing.Point(200,250);$button.Add_Click({;$arguments = @();$path = $browsefiles.FileName;$arguments += \"`\"$path`\"\";if ($checkbox1.Checked) { $arguments += \" -c\" };if ($checkbox2.Checked) { $arguments += \" -e\" };if ($checkbox3.Checked) { $arguments += \" -m\" };if ($checkbox4.Checked) { $arguments += \" -x\" };if ($checkbox5.Checked) { $arguments += \" -f\" };$form.Close();Start-Process -FilePath \"" + System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName + "\" -ArgumentList $arguments -Wait;});$form.Controls.Add($title);$form.Controls.Add($text);$form.Controls.Add($checkbox1);$form.Controls.Add($checkbox2);$form.Controls.Add($checkbox3);$form.Controls.Add($checkbox4);$form.Controls.Add($checkbox5);$form.Controls.Add($button);[Windows.Forms.Application]::Run($form);}");
                     }
                     Thread.Sleep(3000);
                     ShowWindow(handle, SW_HIDE);
@@ -223,7 +223,6 @@ namespace flp2midi
                     {
                         tempstreams[idx] = new MemoryStream();
                     }
-                    lock (locker) { Processed++; }
                     foreach (IPlaylistItem item in track.Items)
                     {
                         ushort channelID = 0;
@@ -254,7 +253,10 @@ namespace flp2midi
                                 {
                                     fltrk[channelID] = fltrk[channelID].MergeWith(shifted);
                                 }
-                                Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {Processed}/{TRACK_COUNT}");
+                                lock (locker)
+                                {
+                                    Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {Processed + 1}/{TRACK_COUNT}");
+                                }
                             }
                         }
                         else
@@ -265,14 +267,17 @@ namespace flp2midi
                                 {
                                     fltrk.Add(new List<Note>());
                                 }
-                                Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {Processed}/{TRACK_COUNT}");
+                                lock (locker)
+                                {
+                                    Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {Processed + 1}/{TRACK_COUNT}");
+                                }
                             }
                         }
                         firstloop = false;
                     }
+                    lock (locker) { Processed++; }
                     ushort ConvertedCH = 0;
                     object locker2 = new object();
-                    lock (locker2) { Converted++; }
                     ParallelFor(0, CHANNEL_COUNT, Environment.ProcessorCount, new CancellationToken(false), pointer =>
                     {
                         unchecked
@@ -286,11 +291,14 @@ namespace flp2midi
                         bufferedstream = null;
                         tempstream.Close();
                         tempstream = null;
-                        Console.WriteLine($"[93mConverted track {++ConvertedCH}/{CHANNEL_COUNT} in FL playlist track {Converted}/{TRACK_COUNT}");
+                            lock (locker2)
+                            {
+                                Console.WriteLine($"[93mConverted track {++ConvertedCH}/{CHANNEL_COUNT} in FL playlist track {Converted + 1}/{TRACK_COUNT}");
+                            }
                         }
                     });
-                    ConvertedCH = 0;
-                    lock (locker2) { Buffered++; }
+                    lock (locker) { Converted++; }
+                    ushort BufferedCH = 0;
                     for (int pointer = 0; pointer < CHANNEL_COUNT; pointer++)
                     {
                         unchecked
@@ -302,9 +310,13 @@ namespace flp2midi
                         binaryWriter.Write(buffer);
                         buffer = null;
                         binaryWriter = null;
-                        Console.WriteLine($"[93mBuffered track {++ConvertedCH}/{CHANNEL_COUNT} in FL playlist track {Buffered}/{TRACK_COUNT}");
+                            lock (locker2)
+                            {
+                                Console.WriteLine($"[93mBuffered track {++BufferedCH}/{CHANNEL_COUNT} in FL playlist track {Buffered + 1}/{TRACK_COUNT}");
+                            }
                         }
                     }
+                    lock (locker) { Buffered++; }
                     fltrk = null;
                     stream.Close();
                 });
