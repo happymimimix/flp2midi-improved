@@ -223,6 +223,7 @@ namespace flp2midi
                     {
                         tempstreams[idx] = new MemoryStream();
                     }
+                    lock (locker) { Processed++; }
                     foreach (IPlaylistItem item in track.Items)
                     {
                         ushort channelID = 0;
@@ -253,10 +254,7 @@ namespace flp2midi
                                 {
                                     fltrk[channelID] = fltrk[channelID].MergeWith(shifted);
                                 }
-                                lock (locker)
-                                {
-                                    Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {++Processed}/{TRACK_COUNT}");
-                                }
+                                Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {Processed}/{TRACK_COUNT}");
                             }
                         }
                         else
@@ -267,15 +265,14 @@ namespace flp2midi
                                 {
                                     fltrk.Add(new List<Note>());
                                 }
-                                lock (locker)
-                                {
-                                    Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {++Processed}/{TRACK_COUNT}");
-                                }
+                                Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {Processed}/{TRACK_COUNT}");
                             }
                         }
                         firstloop = false;
                     }
+                    ushort ConvertedCH = 0;
                     object locker2 = new object();
+                    lock (locker2) { Converted++; }
                     ParallelFor(0, CHANNEL_COUNT, Environment.ProcessorCount, new CancellationToken(false), pointer =>
                     {
                         unchecked
@@ -289,12 +286,11 @@ namespace flp2midi
                         bufferedstream = null;
                         tempstream.Close();
                         tempstream = null;
-                        lock (locker2)
-                        {
-                            Console.WriteLine($"[93mConverted track {pointer + 1}/{CHANNEL_COUNT} in FL playlist track {++Converted}/{TRACK_COUNT}");
-                        }
+                        Console.WriteLine($"[93mConverted track {++ConvertedCH}/{CHANNEL_COUNT} in FL playlist track {Converted}/{TRACK_COUNT}");
                         }
                     });
+                    ConvertedCH = 0;
+                    lock (locker2) { Buffered++; }
                     for (int pointer = 0; pointer < CHANNEL_COUNT; pointer++)
                     {
                         unchecked
@@ -306,10 +302,7 @@ namespace flp2midi
                         binaryWriter.Write(buffer);
                         buffer = null;
                         binaryWriter = null;
-                        lock (locker2)
-                        {
-                            Console.WriteLine($"[93mBuffered track {pointer + 1}/{CHANNEL_COUNT} in FL playlist track {++Buffered}/{TRACK_COUNT}");
-                        }
+                        Console.WriteLine($"[93mBuffered track {++ConvertedCH}/{CHANNEL_COUNT} in FL playlist track {Buffered}/{TRACK_COUNT}");
                         }
                     }
                     fltrk = null;
