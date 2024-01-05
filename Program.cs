@@ -1,4 +1,4 @@
-﻿using MIDIModificationFramework;
+using MIDIModificationFramework;
 using MIDIModificationFramework.Generator;
 using MIDIModificationFramework.MIDIEvents;
 using Monad.FLParser;
@@ -11,50 +11,47 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Note = MIDIModificationFramework.Note;
+using System.Text;
 
 namespace flp2midi
 {
-    internal class Program
+    class Program
     {
-        private static bool Color { get; set; }
-        private static bool Echo { get; set; }
-        private static bool Muted { get; set; }
-        private static bool Extrakey { get; set; }
-        private static bool Fullvelocity { get; set; }
-
-        //TODO: Actually support feed correctly
-        private static IEnumerable<Note> EchoNotes(IEnumerable<Note> notes, byte echoamount, uint feed, uint time, int ppq)
+        static bool Color { get; set; }
+        static bool Echo { get; set; }
+        static bool Muted { get; set; }
+        static bool Extrakey { get; set; }
+        static bool Fullvelocity { get; set; }
+        static IEnumerable<Note> EchoNotes(IEnumerable<Note> notes, byte echoamount, uint feed, uint time, int ppq)
         {
-            if (feed == 0)
-            {
-                return notes;
-            }
+            if(feed == 0) return notes;
+            List<IEnumerable<Note>> echos = new List<IEnumerable<Note>>();
 
-            List<IEnumerable<Note>> echos = new List<IEnumerable<Note>>
-            {
-                notes
-            };
+            var echoed = 0;
 
-            long echoed = 0;
-
-            for (int i = 1; i < echoamount; i++)
+            for(var i = 1; i < echoamount; i++)
             {
                 notes = notes.OffsetTime((time * ppq) / 96.0 / 2);
                 notes = notes.Select(note => new Note(note.Channel, note.Key, (byte)(note.Velocity / (12800.0 / feed / Math.Sqrt(Math.E))), note.Start, note.End));
                 echoed += notes.Count();
                 echos.Add(notes);
             }
-            Console.WriteLine($"Echoed {echoed} notes");
+            Console.WriteLine($"[93mEchoed {echoed} notes");
             return echos.MergeAll();
         }
-
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             Console.SetWindowSize(150, 40);
             Console.WriteLine("[2J[H[0m[1m[90m[96mflp2mid | ver1.4.1");
+            Console.Write($"[95mParameters received:");
+            for (var i = 0; i < args.Length; i++)
+            {
+                Console.Write($" {args[i]}");
+            };Console.Write('\n');
+
             GetArgs(args);
 
-            string filePath = "";
+            var filePath = "";
             if (args.Length > 0)
             {
                 filePath = args[0];
@@ -75,9 +72,6 @@ namespace flp2midi
                 powershellProcess.Start();
                 return;
             }
-            string tempFile = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileName(filePath) + ".tmp");
-            File.Delete(tempFile); //Delete old temp file if it exist
-            ParallelStream streams = new ParallelStream(File.Open(tempFile, FileMode.Create));
 
             Console.WriteLine("[93mLoading FL Studio project file...");
 
@@ -88,59 +82,53 @@ namespace flp2midi
 
             Console.WriteLine("[92mTitle: " + title + " | Version: " + version);
 
-            if (!version.StartsWith("20"))
+            if(!version.StartsWith("20"))
             {
                 Console.WriteLine("[91mWARNING: Your project version is too old and might cause some weird issues during conversion, such as missing patterns and more. ");
                 Console.WriteLine("Please open and save as your project in FL Studio 20 for better compatibility with this program. ");
             }
-
             object l = new object();
-
-            Dictionary<int, Dictionary<Channel, Note[]>> patternDict = new Dictionary<int, Dictionary<Channel, Note[]>>();
-
+            var patternDict = new Dictionary<int, Dictionary<Channel, Note[]>>();
+            var channelList = new List<Channel>(proj.Channels);
             Parallel.ForEach(proj.Patterns, pat =>
             {
                 int id = pat.Id;
                 string name = pat.Name;
 
-                Dictionary<Channel, Note[]> notes = pat.Notes.ToDictionary(c => c.Key, c =>
+                var notes = new Dictionary<Channel, Note[]>();
+                foreach (var c in channelList)
                 {
                     byte channel = 0;
-                    bool colorchan = false;
+                    var colorchan = false;
 
-                    if (c.Key.Data is GeneratorData data && data.GeneratorName.ToLower() == "midi out")
+                    if (c.Data is GeneratorData data && data.GeneratorName.ToLower() == "midi out")
                     {
-                        if (data.PluginSettings[29] == 0x01)
-                        {
-                            colorchan = true;
-                        }
-
+                        if (data.PluginSettings[29] == 0x01) colorchan = true;
                         channel = data.PluginSettings[4];
                     }
-
-                    List<Note> noteList = new List<Note>(c.Value.Count);
-
-                    double lastNoteZeroTick = -1.0;
-                    foreach (Monad.FLParser.Note n in c.Value.OrderBy(n => n.Position))
+                    var noteList = new List<Note>();
+                    if (pat.Notes.ContainsKey(c))
                     {
-                        Note newNote = new Note((colorchan || Color) ? n.Color : channel, Extrakey ? n.Key : Math.Min((byte)127, Math.Max((byte)0, n.Key)), (Fullvelocity ? (byte)255 : Math.Min((byte)127, Math.Max((byte)1, n.Velocity))), n.Position, n.Position + (double)n.Length);
-                        noteList.Add(newNote);
-
-                        if (lastNoteZeroTick != -1.0 && lastNoteZeroTick != newNote.Start)
+                        var lastNoteZeroTick = -1.0;
+                        foreach (var n in pat.Notes[c].OrderBy(n => n.Position))
                         {
-                            lastNoteZeroTick = -1.0;
-                            noteList[^2].End = newNote.Start;
-                        }
+                            var newNote = new Note((colorchan || Color) ? n.Color : channel, Extrakey ? n.Key : Math.Min((byte)127, Math.Max((byte)0, n.Key)), Fullvelocity ? (byte)255 : Math.Min((byte)127, Math.Max((byte)1, n.Velocity)), (double)n.Position, (double)n.Position + (double)n.Length);
+                            noteList.Add(newNote);
 
-                        if (newNote.Length == 0)
-                        {
-                            lastNoteZeroTick = newNote.Start;
-                            newNote.End = double.PositiveInfinity;
+                            if (lastNoteZeroTick != -1.0 && lastNoteZeroTick != newNote.Start)
+                            {
+                                lastNoteZeroTick = -1.0;
+                                noteList[^2].End = newNote.Start;
+                            }
+                            if (newNote.Length == 0)
+                            {
+                                lastNoteZeroTick = newNote.Start;
+                                newNote.End = double.PositiveInfinity;
+                            }
                         }
                     }
-                    return noteList.ToArray();
-                });
-
+                    notes.Add(c, noteList.ToArray());
+                }
                 lock (l)
                 {
                     patternDict.Add(id, notes);
@@ -148,85 +136,68 @@ namespace flp2midi
 
                 Console.WriteLine($"[93mFound pattern {id} \"{name}\"");
             });
-
-            int trackID = 0;
-            Track[] tracks = proj.Tracks.Where(t => t.Items.Count != 0).ToArray();
-            int trackCount = 0;
-
-            ParallelFor(0, tracks.Length, Environment.ProcessorCount, new CancellationToken(false), i =>
-            {
-
-                Track track = tracks[i];
-
-                Parallel.ForEach(track.Items, item =>
-                {
-                    if (item is PatternPlaylistItem && (item.Muted == false || Muted))
-                    {
-                        PatternPlaylistItem pi = item as PatternPlaylistItem;
-                        Dictionary<Channel, Note[]> pattern = patternDict[pi.Pattern.Id];
-                        Parallel.ForEach(pattern, c =>
-                        {
-                            IEnumerable<Note> shifted = c.Value
-                                  .TrimStart(Math.Max(0, item.StartOffset))
-                                  .TrimEnd(Math.Max(0, item.EndOffset == -1 ? item.Length : item.EndOffset))
-                                  .OffsetTime(item.Position - item.StartOffset);
-
-                            Channel channel = c.Key;
-
-                            if (channel.Data is GeneratorData data)
-                            {
-                                if (data.EchoFeed > 0 && Echo)
-                                {
-                                    Console.WriteLine($"[93mDetected echo property with feed={data.EchoFeed}");
-                                    shifted = EchoNotes(shifted, data.Echo, data.EchoFeed, data.EchoTime, proj.Ppq);
-                                }
-                            }
-                            lock (l)
-                            {
-                                BufferedStream Stream = new BufferedStream(streams.GetStream(trackID++), 1 << 24);
-                                MidiWriter TrackWriter = new MidiWriter(Stream);
-                                TrackWriter.Write(shifted.ExtractEvents());
-                                Console.WriteLine($"[93mGenerated MIDI track {trackID} out of FL track {(trackCount) + 1}/{tracks.Length}");
-                                Stream.Close();
-                            }
-                        });
-                    }
-                });
-                lock (l)
-                {
-                    trackCount++;
-                }
-            });
-
-            streams.CloseAllStreams();
-
-            MidiWriter writer = new MidiWriter(Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileName(filePath) + ".mid"));
+            var tracks = proj.Tracks.ToArray();
+            var TrackCount = proj.Tracks.Where(t => t.Items.Count != 0).Count();
+            var FLtrack = 0;
+            var writer = new MidiWriter(Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileName(filePath) + ".mid"));
             writer.Init((ushort)proj.Ppq);
             writer.InitTrack();
             writer.Write(new TempoEvent(0, (int)(60000000.0 / proj.Tempo)));
             writer.EndTrack();
-
-            for (int i = 0; i < trackID; i++)
+            for(var i = 0; i < TrackCount; i++)
             {
-                Console.WriteLine($"[93mWriting MIDI track {i + 1}/{trackID}");
-
-                Stream stream = streams.GetStream(i, true);
-
-                stream.Position = 0;
-                unchecked
-                {
-                    writer.WriteTrack(stream);
+                var track = tracks[i];
+                var firstloop = true;
+                var fltrk = new List<IEnumerable<MIDIEvent>>();
+                foreach (var item in track.Items)
+                {   
+                    var pointer = 0;
+                    if (item is PatternPlaylistItem && (item.Muted == false || Muted))
+                    {
+                        var pi = item as PatternPlaylistItem;
+                        var pattern = patternDict[pi.Pattern.Id];
+                        foreach (var c in pattern)
+                        {
+                            var Events = new List<MIDIEvent>();
+                            if (firstloop) Events.Add(new TextEvent(0, 0x03, Encoding.ASCII.GetBytes($"MIDI Out #{pointer + FLtrack * proj.Channels.Count + 1} @{FLtrack + 1}")));
+                            var shifted = c.Value.TrimStart(Math.Max(0, item.StartOffset)).TrimEnd(Math.Max(0, item.EndOffset == -1 ? item.Length : item.EndOffset)).OffsetTime(item.Position - item.StartOffset);
+                            var channel = c.Key;
+                            if (channel.Data is GeneratorData data)
+                            {
+                                if (data.EchoFeed > 0 && Echo)
+                                {
+                                    shifted = EchoNotes(shifted, data.Echo, data.EchoFeed, data.EchoTime, proj.Ppq);
+                                }
+                            }
+                            Console.WriteLine($"[93mGenerated MIDI track {pointer + FLtrack * proj.Channels.Count + 1} out of FL track {FLtrack + 1}/{TrackCount}");
+                            if (firstloop)
+                            {
+                                Events.AddRange(shifted.ExtractEvents());
+                                fltrk.Add(Events);
+                            } else
+                            {
+                                var merger = new List<IEnumerable<MIDIEvent>>();
+                                merger.Add(fltrk[pointer]);
+                                merger.Add(shifted.ExtractEvents());
+                                fltrk[pointer] = merger.MergeAllTracks();
+                            }
+                                
+                            pointer++;
+                        }
+                        firstloop = false;
+                    }
                 }
-                stream.Close();
+                var written = 1;
+                foreach (var midtrk in fltrk)
+                {
+                    Console.WriteLine($"[93mWritten {written++} tracks");
+                    writer.WriteTrack(midtrk);
+                }
+                FLtrack++;
             }
-
             writer.Close();
-            streams.CloseAllStreams();
-            streams.Dispose();
             Console.WriteLine("[92mConversion completed! \n");
-            File.Delete(tempFile);
-            Console.WriteLine("[107m[97m-");
-            Console.WriteLine("[31m ==================================================================== [[5m Notice [25m] ==================================================================== ");
+            Console.WriteLine("[107m[97m-[31m\n ==================================================================== [[5m Notice [25m] ==================================================================== ");
             Console.WriteLine("[97m-");
             Console.WriteLine("[34m[22m This tool does not support exporting automations and MIDI CC. Only note events can be exported. ");
             Console.WriteLine(" If you used any of these, you must export them separately and merge them with either CJCAMM or SAFC or whatever. ");
@@ -262,41 +233,34 @@ namespace flp2midi
             Console.WriteLine("[97m-[0m");
             return;
         }
-
-        //TODO: Abstract console vars
-        private static void GetArgs(string[] args)
+        static void GetArgs(string[] args)
         {
-            for (int i = 1; i < args.Length; i++)
+            for (var i = 1; i < args.Length; i++)
             {
                 switch (args[i])
                 {
                     case "-c":
                         {
-                            Console.WriteLine("[95mEnforce mapping color to channel");
                             Color = true;
                             break;
                         }
                     case "-e":
                         {
-                            Console.WriteLine("[95mEcho effect (beta)");
                             Echo = true;
                             break;
                         }
                     case "-m":
                         {
-                            Console.WriteLine("[95mExport muted patterns");
                             Muted = true;
                             break;
                         }
                     case "-x":
                         {
-                            Console.WriteLine("[95m132 keys");
                             Extrakey = true;
                             break;
                         }
                     case "-f":
                         {
-                            Console.WriteLine("[95mFull velocity");
                             Fullvelocity = true;
                             break;
                         }
@@ -307,50 +271,6 @@ namespace flp2midi
                             break;
                         }
                 }
-            }
-        }
-
-        private static void ParallelFor(int from, int to, int threads, CancellationToken cancel, Action<int> func)
-        {
-            Dictionary<int, Task> tasks = new Dictionary<int, Task>();
-            BlockingCollection<int> completed = new BlockingCollection<int>();
-
-            void RunTask(int i)
-            {
-                Task t = new Task(() =>
-                {
-                    try
-                    {
-                        func(i);
-                    }
-                    finally
-                    {
-                        completed.Add(i);
-                    }
-                });
-                tasks.Add(i, t);
-                t.Start();
-            }
-
-            void TryTake()
-            {
-                int t = completed.Take(cancel);
-                tasks[t].Wait();
-                tasks.Remove(t);
-            }
-
-            for (int i = from; i < to; i++)
-            {
-                RunTask(i);
-                if (tasks.Count > threads)
-                {
-                    TryTake();
-                }
-            }
-
-            while (completed.Count > 0 || tasks.Count > 0)
-            {
-                TryTake();
             }
         }
     }
