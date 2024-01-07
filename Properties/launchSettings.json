@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "flp2midi": {
+      "commandName": "Project",
+      "commandLineArgs": "\"D:\\Destruction321-FL20.flp\" C"
+    }
+  }
+}
