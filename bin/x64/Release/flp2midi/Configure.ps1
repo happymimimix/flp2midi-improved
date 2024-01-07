@@ -1,9 +1,9 @@
-﻿$browsefiles = New-Object System.Windows.Forms.OpenFileDialog
+﻿Set-Location $PSScriptRoot
+Add-Type -AssemblyName System.Windows.Forms
+$browsefiles = New-Object System.Windows.Forms.OpenFileDialog
 $browsefiles.Filter = "FL Studio Project Files (*.flp)|*.flp"
 $browsefiles.Title = "Please Select Your FL Studio Project File..."
-if ($browsefiles.ShowDialog() -eq 'Cancel'){ exit }
-Set-Location $PSScriptRoot
-Add-Type -AssemblyName System.Windows.Forms
+if ($browsefiles.ShowDialog() -eq 'OK'){
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "flp2midi v1.4.3"
 $form.Size = New-Object System.Drawing.Size(300,380)
@@ -61,7 +61,7 @@ $label2.Location = New-Object System.Drawing.Point(15,250)
 $dropdown = New-Object System.Windows.Forms.ComboBox
 $dropdown.Font = "dosis,9"
 $dropdown.Size = New-Object System.Drawing.Size(270,40)
-$dropdown.Location = New-Object System.Drawing.Size(15,270)
+$dropdown.Location = New-Object System.Drawing.Size(10,270)
 $dropdown.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
 $dropdown.Items.Add("Mode A  -  One FL track in playlist -> One MIDI track")
 $dropdown.Items.Add("Mode B  -  One MIDI Out in channel rack -> One MIDI track")
@@ -99,3 +99,4 @@ $form.Controls.Add($checkbox5)
 $form.Controls.Add($dropdown)
 $form.Controls.Add($button)
 [Windows.Forms.Application]::Run($form)
+}

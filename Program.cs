@@ -43,12 +43,15 @@ namespace flp2midi
         {
             Console.SetWindowSize(150, 40);
             Console.WriteLine("[2J[H[0m[1m[90m[96m >  flp2midi | ver1.4.3");
-            Console.Write("[95mParameters received: [");
-            for (var i = 0; i < args.Length - 1; i++)
+            if (args.Length >= 1)
             {
-                Console.Write($"\"{args[i]}\", ");
-            };
-            Console.WriteLine($"\"{args[args.Length - 1]}\"]");
+                Console.Write("[95mParameters received: [");
+                for (var i = 0; i < args.Length - 1; i++)
+                {
+                    Console.Write($"\"{args[i]}\", ");
+                };
+                Console.WriteLine($"\"{args[args.Length - 1]}\"]");
+            }
             
             GetArgs(args);
 
@@ -158,7 +161,7 @@ namespace flp2midi
                         var lastNoteZeroTick = -1.0;
                         foreach (var n in pat.Notes[c].OrderBy(n => n.Position))
                         {
-                            var newNote = new Note((colorchan || Color) ? n.Color : channel, Extrakey ? n.Key : Math.Min((byte)127, Math.Max((byte)0, n.Key)), Fullvelocity ? (byte)255 : Math.Min((byte)127, Math.Max((byte)1, n.Velocity)), (double)n.Position, (double)n.Position + (double)n.Length);
+                            var newNote = new Note((colorchan || Color) ? n.Color : channel, Extrakey ? n.Key : Math.Min((byte)127, Math.Max((byte)0, n.Key)), Fullvelocity ? (byte)127 : Math.Min((byte)127, Math.Max((byte)1, n.Velocity)), (double)n.Position, (double)n.Position + (double)n.Length);
                             noteList.Add(newNote);
 
                             if (lastNoteZeroTick != -1.0 && lastNoteZeroTick != newNote.Start)
