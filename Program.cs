@@ -37,7 +37,7 @@ namespace flp2midi
 
             var echoed = 0;
 
-            for (var i = 1; i < echoamount; i++)
+            for (int i = 1; i < echoamount; i++)
             {
                 notes = notes.OffsetTime((time * ppq) / 96.0 / 2);
                 notes = notes.Select(note => new Note(note.Channel, note.Key, (byte)(note.Velocity / (12800.0 / feed / Math.Sqrt(Math.E))), note.Start, note.End));
@@ -58,7 +58,7 @@ namespace flp2midi
             if (args.Length >= 1)
             {
                 Console.Write("[95mParameters received: [");
-                for (var i = 0; i < args.Length - 1; i++)
+                for (int i = 0; i < args.Length - 1; i++)
                 {
                     Console.Write($"\"{args[i]}\", ");
                 };
@@ -180,15 +180,12 @@ namespace flp2midi
             writer.InitTrack();
             writer.Write(new TempoEvent(0, (int)(60000000.0 / proj.Tempo)));
             writer.EndTrack();
-
-            //for (var i = 0; i < tracks.Length; i++)
             ParallelFor(0, tracks.Length, Environment.ProcessorCount * 4, new CancellationToken(false), i =>
             {
                 var track = tracks[i];
                 var firstloop = true;
                 var stream = new BufferedStream(streams.GetStream(i), 1 << 24);
-                var tempstreams = new MemoryStream[proj.Channels.Count];
-                var fltrk = new List<IEnumerable<MIDIEvent>>();
+                var fltrk = new List<IEnumerable<Note>>();
                 foreach (var item in track.Items)
                 {
                     var channelID = 0;
@@ -198,7 +195,6 @@ namespace flp2midi
                         var pattern = patternDict[pi.Pattern.Id];
                         foreach (var c in pattern)
                         {
-                            var trackWriter = new MidiWriter(tempstreams[channelID]);
                             var shifted = c.Value
                                           .TrimStart(Math.Max(0, item.StartOffset))
                                           .TrimEnd(Math.Max(0, item.EndOffset == -1 ? item.Length : item.EndOffset))
@@ -214,21 +210,13 @@ namespace flp2midi
                             }
                             if (firstloop)
                             {
-                                var Events = new List<MIDIEvent>();
-                                Events.AddRange(shifted.ExtractEvents());
-                                fltrk.Add(Events);
-                                Events = null;
+                                fltrk.Add(shifted);
                             }
                             else
                             {
-                                var merger = new List<IEnumerable<MIDIEvent>>();
-                                merger.Add(fltrk[channelID]);
-                                merger.Add(shifted.ExtractEvents());
-                                fltrk[channelID] = merger.MergeAllTracks();
-                                merger = null;
+                                fltrk[channelID].MergeWith(shifted);
                             }
                             Console.WriteLine($"[93mGenerated MIDI track {++channelID} out of FL track {i + 1}/{tracks.Length}");
-
                         }
                     }
                     else
@@ -237,65 +225,36 @@ namespace flp2midi
                         {
                             for (var j = 0; j < proj.Channels.Count; j++)
                             {
-                                var Events = new List<MIDIEvent>();
-                                fltrk.Add(Events);
-                                Events = null;
+                                fltrk.Add(new List<Note>());
                             }
                             Console.WriteLine($"[93mGenerated MIDI track {++channelID} out of FL track {i + 1}/{tracks.Length}");
-
                         }
                     }
                     firstloop = false;
                 }
-                /*for (var pointer = 0; pointer < proj.Channels.Count; pointer++)
-                {
-                    writer.WriteTrack(fltrk[pointer]);
-                }*/
-                //for (var pointer = 0; pointer < proj.Channels.Count; pointer++)
                 ParallelFor(0, proj.Channels.Count, Environment.ProcessorCount * 4, new CancellationToken(false), pointer =>
                 {
-                    tempstreams[pointer] = new MemoryStream();
-                    tempstreams[pointer].Position = 0;
-                    var trackWriter = new MidiWriter(tempstreams[pointer]);
-                    trackWriter.Write(fltrk[pointer]);
-                    tempstreams[pointer].Position = 0;
-                    tempstreams[pointer].Flush();
+                    var tempstream = new MemoryStream();
+                    var bufferedstream = new BufferedStream(tempstream);
+                    var trackWriter = new MidiWriter(bufferedstream);
+                    trackWriter.Write(fltrk[pointer].ExtractEvents());
+                    bufferedstream.Close();
                     fltrk[pointer] = null;
-                    var buffer = tempstreams[pointer].ToArray();
-                    tempstreams[pointer] = null;
+                    var buffer = tempstream.ToArray();
+                    tempstream = null;
+                    bufferedstream = null;
+                    var binaryWriter = new BinaryWriter(stream);
                     lock (l)
                     {
-                        var binaryWriter = new BinaryWriter(stream);
                         binaryWriter.Write(buffer.Length);
                         binaryWriter.Write(buffer);
-                        binaryWriter = null;
                     }
                     buffer = null;
+                    binaryWriter = null;
                     Console.WriteLine($"Buffered track {pointer + 1}/{proj.Channels.Count} out of FL track {i + 1}/{tracks.Length}");
                 });
+                fltrk = null;
                 stream.Close();
-                /*
-                ParallelFor(0, proj.Channels.Count, Environment.ProcessorCount, new CancellationToken(false), pointer =>
-                {
-                    tempstreams[pointer] = new MemoryStream();
-                    var trackWriter = new MidiWriter(tempstreams[pointer]);
-                    trackWriter.Write(fltrk[pointer]);
-                    tempstreams[pointer].Flush();
-                    Console.WriteLine($"Cached track {pointer + 1} out of FL track {i + 1}/{tracks.Length} in RAM");
-                });
-                //stream.Flush();
-                //Console.WriteLine($"Buffered FL track {i+1}/{tracks.Length} in temp file");
-                for (int k = 0; k < proj.Channels.Count; k++)
-                {
-                    tempstreams[k].Position = 0;
-                    unchecked
-                    {
-                        writer.WriteTrack(tempstreams[k]);
-                    }
-                    tempstreams[k].Close();
-                    Console.WriteLine($"[93mWritten {k + 1} tracks");
-                }*/
-
             });
 
             streams.CloseAllStreams();

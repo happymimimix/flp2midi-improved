@@ -181,11 +181,11 @@
   "project": {
     "version": "1.5.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrator\\Documents\\flp2mid\\flp2midi.csproj",
+      "projectUniqueName": "C:\\Users\\Administrator\\Documents\\flp2midi\\flp2midi.csproj",
       "projectName": "flp2midi",
-      "projectPath": "C:\\Users\\Administrator\\Documents\\flp2mid\\flp2midi.csproj",
+      "projectPath": "C:\\Users\\Administrator\\Documents\\flp2midi\\flp2midi.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrator\\Documents\\flp2mid\\obj\\publish\\win-x64\\",
+      "outputPath": "C:\\Users\\Administrator\\Documents\\flp2midi\\obj\\publish\\win-x64\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -206,11 +206,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\Administrator\\Documents\\flp2mid\\external\\FLParser\\Monad.FLParser.csproj": {
-              "projectPath": "C:\\Users\\Administrator\\Documents\\flp2mid\\external\\FLParser\\Monad.FLParser.csproj"
+            "C:\\Users\\Administrator\\Documents\\flp2midi\\external\\FLParser\\Monad.FLParser.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\Documents\\flp2midi\\external\\FLParser\\Monad.FLParser.csproj"
             },
-            "C:\\Users\\Administrator\\Documents\\flp2mid\\external\\MIDIModificationFramework\\MIDIModificationFramework.csproj": {
-              "projectPath": "C:\\Users\\Administrator\\Documents\\flp2mid\\external\\MIDIModificationFramework\\MIDIModificationFramework.csproj"
+            "C:\\Users\\Administrator\\Documents\\flp2midi\\external\\MIDIModificationFramework\\MIDIModificationFramework.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\Documents\\flp2midi\\external\\MIDIModificationFramework\\MIDIModificationFramework.csproj"
             }
           }
         }
