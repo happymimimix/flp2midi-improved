@@ -180,11 +180,11 @@ namespace flp2midi
             writer.InitTrack();
             writer.Write(new TempoEvent(0, (int)(60000000.0 / proj.Tempo)));
             writer.EndTrack();
-            ParallelFor(0, tracks.Length, Environment.ProcessorCount * 4, new CancellationToken(false), i =>
+            ParallelFor(0, tracks.Length, Environment.ProcessorCount, new CancellationToken(false), i =>
             {
                 var track = tracks[i];
                 var firstloop = true;
-                var stream = new BufferedStream(streams.GetStream(i), 1 << 24);
+                var stream = new BufferedStream(streams.GetStream(i), 1 << 28);
                 var fltrk = new List<IEnumerable<Note>>();
                 foreach (var item in track.Items)
                 {
@@ -214,7 +214,7 @@ namespace flp2midi
                             }
                             else
                             {
-                                fltrk[channelID].MergeWith(shifted);
+                                fltrk[channelID] = fltrk[channelID].MergeWith(shifted);
                             }
                             Console.WriteLine($"[93mGenerated MIDI track {++channelID} out of FL track {i + 1}/{tracks.Length}");
                         }
@@ -232,17 +232,18 @@ namespace flp2midi
                     }
                     firstloop = false;
                 }
-                ParallelFor(0, proj.Channels.Count, Environment.ProcessorCount * 4, new CancellationToken(false), pointer =>
+                ParallelFor(0, proj.Channels.Count, Environment.ProcessorCount, new CancellationToken(false), pointer =>
                 {
                     var tempstream = new MemoryStream();
-                    var bufferedstream = new BufferedStream(tempstream);
+                    var bufferedstream = new BufferedStream(tempstream, 1 << 28);
                     var trackWriter = new MidiWriter(bufferedstream);
                     trackWriter.Write(fltrk[pointer].ExtractEvents());
                     bufferedstream.Close();
+                    bufferedstream = null;
                     fltrk[pointer] = null;
                     var buffer = tempstream.ToArray();
+                    tempstream.Close();
                     tempstream = null;
-                    bufferedstream = null;
                     var binaryWriter = new BinaryWriter(stream);
                     lock (l)
                     {
