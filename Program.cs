@@ -8,10 +8,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Note = MIDIModificationFramework.Note;
-using System.Text;
 
 namespace flp2midi
 {
@@ -22,14 +22,22 @@ namespace flp2midi
         static bool Muted { get; set; }
         static bool Extrakey { get; set; }
         static bool Fullvelocity { get; set; }
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        const int SW_HIDE = 0;
+        const int SW_SHOW = 5;
+
         static IEnumerable<Note> EchoNotes(IEnumerable<Note> notes, byte echoamount, uint feed, uint time, int ppq)
         {
-            if(feed == 0) return notes;
+            if (feed == 0) return notes;
             List<IEnumerable<Note>> echos = new List<IEnumerable<Note>>();
 
             var echoed = 0;
 
-            for(var i = 1; i < echoamount; i++)
+            for (var i = 1; i < echoamount; i++)
             {
                 notes = notes.OffsetTime((time * ppq) / 96.0 / 2);
                 notes = notes.Select(note => new Note(note.Channel, note.Key, (byte)(note.Velocity / (12800.0 / feed / Math.Sqrt(Math.E))), note.Start, note.End));
@@ -42,7 +50,11 @@ namespace flp2midi
         static void Main(string[] args)
         {
             Console.SetWindowSize(150, 40);
-            Console.WriteLine("[2J[H[0m[1m[90m[96m >  flp2midi | ver1.4.3");
+            Console.WriteLine("[2J[H[0m[1m[90m[96m >  flp2midi | ver1.5.0");
+            var handle = GetConsoleWindow();
+
+            ShowWindow(handle, SW_SHOW);
+
             if (args.Length >= 1)
             {
                 Console.Write("[95mParameters received: [");
@@ -52,67 +64,42 @@ namespace flp2midi
                 };
                 Console.WriteLine($"\"{args[args.Length - 1]}\"]");
             }
-            
+
             GetArgs(args);
 
             var filePath = "";
-            var mode = "";
-            if (args.Length >= 2)
+            if (args.Length >= 1)
             {
                 filePath = args[0];
-                mode = args[1].ToUpper();
-                if (!File.Exists(filePath)) {
+                if (!File.Exists(filePath))
+                {
                     Console.WriteLine($"[91mFile not found: {filePath}[0m");
                     Thread.Sleep(3000);
                     return;
                 }
-                switch (mode)
-                {
-                    case "A":
-                        {
-                            Console.WriteLine("[92m >  Mode A  -  One FL track in playlist -> One MIDI track");
-                            break;
-                        }
-                    case "B":
-                        {
-                            Console.WriteLine("[92m >  Mode B  -  One MIDI Out in channel rack -> One MIDI track");
-                            break;
-                        }
-                    case "C":
-                        {
-                            Console.WriteLine("[92m >  Mode C  -  One MIDI Out in one FL track -> One MIDI track");
-                            break;
-                        }
-                    default:
-                        {
-                            Console.WriteLine($"[91mUnknown conversion mode: {mode}");
-                            Console.WriteLine("Allowed modes: A B C[0m");
-                            Thread.Sleep(3000);
-                            return;
-                        }
-                }
             }
             else
             {
-                if (args.Length < 1)
+                Console.WriteLine("[91mMissing filename[0m");
+                var process = new Process
                 {
-                    Console.WriteLine("[91mMissing filename[0m");
-                } else
-                {
-                    Console.WriteLine("[91mConversion mode not specified[0m");
-                }
-                ProcessStartInfo ps = new ProcessStartInfo
-                {
-                    FileName = "powershell.exe",
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    Arguments = "& '" + Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Configure.ps1'"
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "Powershell.EXE",
+                        RedirectStandardInput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    }
                 };
-                Process powershellProcess = new Process { StartInfo = ps };
-                powershellProcess.Start();
+                process.Start();
+                using (var sw = process.StandardInput)
+                {
+                    sw.WriteLine("Set-Location $PSScriptRoot;Add-Type -AssemblyName System.Windows.Forms;$browsefiles = New-Object System.Windows.Forms.OpenFileDialog;$browsefiles.Filter = \"FL Studio Project Files (*.flp)|*.flp\";$browsefiles.Title = \"Please Select Your FL Studio Project File...\";if ($browsefiles.ShowDialog() -eq 'OK'){;$form = New-Object System.Windows.Forms.Form;$form.Text = \"flp2midi v1.5.0\";$form.Size = New-Object System.Drawing.Size(300,320);$form.StartPosition = \"CenterScreen\";$form.FormBorderStyle = \"FixedToolWindow\";$form.TopMost = $true;$title = New-Object System.Windows.Forms.Label;$title.Font = \"dosis,18\";$title.Text = \"flp2midi v1.5.0\";$title.TextAlign = \"MiddleCenter\";$title.Size = \"300,35\";$title.Location = New-Object System.Drawing.Point(0,20);$text = New-Object System.Windows.Forms.Label;$text.Font = \"dosis,12\";$text.Text = \"options: \";$text.TextAlign = \"MiddleLeft\";$text.Size = \"70,20\";$text.Location = New-Object System.Drawing.Point(15,70);$checkbox1 = New-Object System.Windows.Forms.CheckBox;$checkbox1.Text = \"Enforce mapping color to channel\";$checkbox1.Font = \"dosis,10\";$checkbox1.TextAlign = \"MiddleLeft\";$checkbox1.Size = \"250,20\";$checkbox1.Location = New-Object System.Drawing.Point(15,100);$checkbox2 = New-Object System.Windows.Forms.CheckBox;$checkbox2.Text = \"Echo effect (beta)\";$checkbox2.Font = \"dosis,10\";$checkbox2.TextAlign = \"MiddleLeft\";$checkbox2.Size = \"250,20\";$checkbox2.Location = New-Object System.Drawing.Point(15,130);$checkbox3 = New-Object System.Windows.Forms.CheckBox;$checkbox3.Text = \"Export muted patterns\";$checkbox3.Font = \"dosis,10\";$checkbox3.TextAlign = \"MiddleLeft\";$checkbox3.Size = \"250,20\";$checkbox3.Location = New-Object System.Drawing.Point(15,160);$checkbox4 = New-Object System.Windows.Forms.CheckBox;$checkbox4.Text = \"132 keys\";$checkbox4.Font = \"dosis,10\";$checkbox4.TextAlign = \"MiddleLeft\";$checkbox4.Size = \"250,20\";$checkbox4.Location = New-Object System.Drawing.Point(15,190);$checkbox5 = New-Object System.Windows.Forms.CheckBox;$checkbox5.Text = \"Full velocity\";$checkbox5.Font = \"dosis,10\";$checkbox5.TextAlign = \"MiddleLeft\";$checkbox5.Size = \"250,20\";$checkbox5.Location = New-Object System.Drawing.Point(15,220);$button = New-Object System.Windows.Forms.Button;$button.Text = \"Execute\";$button.Font = \"dosis,12\";$button.TextAlign = \"MiddleCenter\";$button.Location = New-Object System.Drawing.Point(200,250);$button.Add_Click({;$arguments = @();$arguments += \"/k .\\`\"" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + "`\" \";$path = $browsefiles.FileName;$arguments += \"`\"$path`\"\";if ($checkbox1.Checked) { $arguments += \" -c\" };if ($checkbox2.Checked) { $arguments += \" -e\" };if ($checkbox3.Checked) { $arguments += \" -m\" };if ($checkbox4.Checked) { $arguments += \" -x\" };if ($checkbox5.Checked) { $arguments += \" -f\" };$form.Close();Start-Process -FilePath C:\\Windows\\System32\\cmd.exe -ArgumentList $arguments -Wait;});$form.Controls.Add($title);$form.Controls.Add($text);$form.Controls.Add($checkbox1);$form.Controls.Add($checkbox2);$form.Controls.Add($checkbox3);$form.Controls.Add($checkbox4);$form.Controls.Add($checkbox5);$form.Controls.Add($button);[Windows.Forms.Application]::Run($form);}");
+                }
                 Thread.Sleep(3000);
+                ShowWindow(handle, SW_HIDE);
+                process.WaitForExit();
+                ShowWindow(handle, SW_SHOW);
                 return;
             }
             var tempFile = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileName(filePath) + ".tmp");
@@ -128,10 +115,10 @@ namespace flp2midi
 
             Console.WriteLine("[92mTitle: " + title + " | Version: " + version);
 
-            if(!version.StartsWith("20"))
+            if (!version.StartsWith("20.7"))
             {
                 Console.WriteLine("[91mWARNING: Your project version is too old and might cause some weird issues during conversion, such as missing patterns and more. ");
-                Console.WriteLine("Please open and save as your project in FL Studio 20 for better compatibility with this program. ");
+                Console.WriteLine("Please open and save as your project in FL Studio 20.7 for better compatibility with this program. ");
                 Console.WriteLine("Press return to continue anyways...");
                 Console.ReadLine();
             }
@@ -188,331 +175,165 @@ namespace flp2midi
             var tracks = proj.Tracks.Where(t => t.Items.Count != 0).ToArray();
 
             var writer = new MidiWriter(Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileName(filePath) + ".mid"));
+            Console.WriteLine($"Project PPQ: {proj.Ppq}");
             writer.Init((ushort)proj.Ppq);
             writer.InitTrack();
             writer.Write(new TempoEvent(0, (int)(60000000.0 / proj.Tempo)));
             writer.EndTrack();
-            switch (mode)
+
+            //for (var i = 0; i < tracks.Length; i++)
+            ParallelFor(0, tracks.Length, Environment.ProcessorCount * 4, new CancellationToken(false), i =>
             {
-                case "A":
+                var track = tracks[i];
+                var firstloop = true;
+                var stream = new BufferedStream(streams.GetStream(i), 1 << 24);
+                var tempstreams = new MemoryStream[proj.Channels.Count];
+                var fltrk = new List<IEnumerable<MIDIEvent>>();
+                foreach (var item in track.Items)
+                {
+                    var channelID = 0;
+                    if (item is PatternPlaylistItem && (item.Muted == false || Muted))
                     {
-                        ParallelFor(0, tracks.Length, Environment.ProcessorCount, new CancellationToken(false), i =>
+                        var pi = item as PatternPlaylistItem;
+                        var pattern = patternDict[pi.Pattern.Id];
+                        foreach (var c in pattern)
                         {
-                            var stream = new BufferedStream(streams.GetStream(i), 1 << 24);
-                            var trackWriter = new MidiWriter(stream);
-                            var track = tracks[i];
-                            var notes = track.Items.Select(item =>
-                            {
-                                if (item is PatternPlaylistItem && (item.Muted == false || Muted))
-                                {
-                                    var pi = item as PatternPlaylistItem;
-                                    var pattern = patternDict[pi.Pattern.Id];
-                                    var merged = pattern.Select(c =>
-                                    {
-                                        var shifted = c.Value
-                                                      .TrimStart(Math.Max(0, item.StartOffset))
-                                                      .TrimEnd(Math.Max(0, item.EndOffset == -1 ? item.Length : item.EndOffset))
-                                                      .OffsetTime(item.Position - item.StartOffset);
+                            var trackWriter = new MidiWriter(tempstreams[channelID]);
+                            var shifted = c.Value
+                                          .TrimStart(Math.Max(0, item.StartOffset))
+                                          .TrimEnd(Math.Max(0, item.EndOffset == -1 ? item.Length : item.EndOffset))
+                                          .OffsetTime(item.Position - item.StartOffset);
 
-                                        var channel = c.Key;
-                                        if (channel.Data is GeneratorData data)
-                                        {
-                                            if (data.EchoFeed > 0 && Echo)
-                                            {
-                                                shifted = EchoNotes(shifted, data.Echo, data.EchoFeed, data.EchoTime, proj.Ppq);
-                                            }
-                                        }
-                                        return shifted;
-                                    }).MergeAll();
-
-                                    return merged;
-                                }
-                                else
-                                {
-                                    return new Note[0];
-                                }
-                            }).MergeAll();
-                            trackWriter.Write(notes.ExtractEvents());
-                            stream.Close();
-                            lock (l)
+                            var channel = c.Key;
+                            if (channel.Data is GeneratorData data)
                             {
-                                Console.WriteLine($"[93mGenerated MIDI track {i + 1}");
+                                if (data.EchoFeed > 0 && Echo)
+                                {
+                                    shifted = EchoNotes(shifted, data.Echo, data.EchoFeed, data.EchoTime, proj.Ppq);
+                                }
                             }
-                        });
-                        break;
-                    }
-                case "B":
-                    {
-                        var fltrk = new List<IEnumerable<MIDIEvent>>();
-                        var firstloop = true;
-                        ParallelFor(0, tracks.Length, Environment.ProcessorCount, new CancellationToken(false), i =>
-                        {
-                            var track = tracks[i];
-                            foreach (var item in track.Items)
+                            if (firstloop)
                             {
-     
-                                var channelID = 0;
-                                if (item is PatternPlaylistItem && (item.Muted == false || Muted))
-                                {                           var pi = item as PatternPlaylistItem;
-                                var pattern = patternDict[pi.Pattern.Id];
-                                    foreach (var c in pattern)
-                                    {
-                                        var shifted = c.Value
-                                                      .TrimStart(Math.Max(0, item.StartOffset))
-                                                      .TrimEnd(Math.Max(0, item.EndOffset == -1 ? item.Length : item.EndOffset))
-                                                      .OffsetTime(item.Position - item.StartOffset);
-
-                                        var channel = c.Key;
-                                        if (channel.Data is GeneratorData data)
-                                        {
-                                            if (data.EchoFeed > 0 && Echo)
-                                            {
-                                                shifted = EchoNotes(shifted, data.Echo, data.EchoFeed, data.EchoTime, proj.Ppq);
-                                            }
-                                        }
-                                        lock (l)
-                                        {
-                                            if (firstloop)
-                                            {
-                                                var Events = new List<MIDIEvent>();
-                                                Events.AddRange(shifted.ExtractEvents());
-                                                fltrk.Add(Events);
-                                            }
-                                            else
-                                            {
-                                                var merger = new List<IEnumerable<MIDIEvent>>();
-                                                merger.Add(fltrk[channelID]);
-                                                merger.Add(shifted.ExtractEvents());
-                                                fltrk[channelID] = merger.MergeAllTracks();
-                                            }
-                                            Console.WriteLine($"[93mGenerated MIDI track {++channelID} out of FL track {i+1}/{tracks.Length}");
-                                        }
-                                    }
-                                } else
-                                {
-                                    if (firstloop)
-                                    {
-                                        for (var j = 0; j < proj.Channels.Count; j++)
-                                        {
-
-                                            var Events = new List<MIDIEvent>();
-                                            fltrk.Add(Events);
-                                        }
-                                        lock (l)
-                                        {
-                                            Console.WriteLine($"[93mGenerated MIDI track {++channelID} out of FL track {i + 1}/{tracks.Length}");
-                                        }
-                                    }
-                                }
-                                firstloop = false;
+                                var Events = new List<MIDIEvent>();
+                                Events.AddRange(shifted.ExtractEvents());
+                                fltrk.Add(Events);
+                                Events = null;
                             }
-                        });
-                        /*
-                        for (var pointer = 0; pointer < proj.Channels.Count; pointer++)
-                        {
-                            writer.WriteTrack(fltrk[pointer]);
+                            else
+                            {
+                                var merger = new List<IEnumerable<MIDIEvent>>();
+                                merger.Add(fltrk[channelID]);
+                                merger.Add(shifted.ExtractEvents());
+                                fltrk[channelID] = merger.MergeAllTracks();
+                                merger = null;
+                            }
+                            Console.WriteLine($"[93mGenerated MIDI track {++channelID} out of FL track {i + 1}/{tracks.Length}");
+
                         }
-                        */
-                            ParallelFor(0, proj.Channels.Count, Environment.ProcessorCount, new CancellationToken(false), pointer =>
-                            {
-                                var stream = new BufferedStream(streams.GetStream(pointer), 1 << 24);
-                                var trackWriter = new MidiWriter(stream);
-                                trackWriter.Write(fltrk[pointer]);
-                                stream.Flush();
-                                Console.WriteLine($"Buffered channel {pointer + 1}/{proj.Channels.Count}");
-                            });
-                        break;
                     }
-                case "C":
+                    else
                     {
-                        //for (var i = 0; i < tracks.Length; i++)
-                        ParallelFor(0, tracks.Length, Environment.ProcessorCount, new CancellationToken(false), i =>
+                        if (firstloop)
                         {
-                            var track = tracks[i];
-                            var firstloop = true;
-                            var stream = new BufferedStream(streams.GetStream(i), 1 << 24);
-                            MemoryStream[] tempstreams = new MemoryStream[proj.Channels.Count];
-                            var fltrk = new List<IEnumerable<MIDIEvent>>();
-                            foreach (var item in track.Items)
+                            for (var j = 0; j < proj.Channels.Count; j++)
                             {
-                                var channelID = 0;
-                                if (item is PatternPlaylistItem && (item.Muted == false || Muted))
-                                {var pi = item as PatternPlaylistItem;
-                                var pattern = patternDict[pi.Pattern.Id];
-                                    foreach (var c in pattern)
-                                    {
-                                        var trackWriter = new MidiWriter(tempstreams[channelID]);
-                                        var shifted = c.Value
-                                                      .TrimStart(Math.Max(0, item.StartOffset))
-                                                      .TrimEnd(Math.Max(0, item.EndOffset == -1 ? item.Length : item.EndOffset))
-                                                      .OffsetTime(item.Position - item.StartOffset);
-
-                                        var channel = c.Key;
-                                        if (channel.Data is GeneratorData data)
-                                        {
-                                            if (data.EchoFeed > 0 && Echo)
-                                            {
-                                                shifted = EchoNotes(shifted, data.Echo, data.EchoFeed, data.EchoTime, proj.Ppq);
-                                            }
-                                        }
-                                        lock (l)
-                                        {
-                                            if (firstloop)
-                                            {
-                                                var Events = new List<MIDIEvent>();
-                                                Events.AddRange(shifted.ExtractEvents());
-                                                fltrk.Add(Events);
-                                            }
-                                            else
-                                            {
-                                                var merger = new List<IEnumerable<MIDIEvent>>();
-                                                merger.Add(fltrk[channelID]);
-                                                merger.Add(shifted.ExtractEvents());
-                                                fltrk[channelID] = merger.MergeAllTracks();
-                                            }
-                                            Console.WriteLine($"[93mGenerated MIDI track {++channelID} out of FL track {i + 1}/{tracks.Length}");
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    if (firstloop)
-                                    {
-                                        for (var j = 0; j < proj.Channels.Count; j++)
-                                        {
-                                            var Events = new List<MIDIEvent>();
-                                            fltrk.Add(Events);
-                                        }
-                                        lock (l)
-                                        {
-                                            Console.WriteLine($"[93mGenerated MIDI track {++channelID} out of FL track {i + 1}/{tracks.Length}");
-                                        }
-                                    }
-                                }
-                                firstloop = false;
+                                var Events = new List<MIDIEvent>();
+                                fltrk.Add(Events);
+                                Events = null;
                             }
-                            /*for (var pointer = 0; pointer < proj.Channels.Count; pointer++)
-                            {
-                                writer.WriteTrack(fltrk[pointer]);
-                            }*/
-                            for (var pointer = 0; pointer < proj.Channels.Count; pointer++)
-                            //ParallelFor(0, proj.Channels.Count, Environment.ProcessorCount, new CancellationToken(false), pointer =>
-                            {
-                                tempstreams[pointer] = new MemoryStream();
-                                var trackWriter = new MidiWriter(tempstreams[pointer]);
-                                trackWriter.Write(fltrk[pointer]);
-                                tempstreams[pointer].Flush();
-                                tempstreams[pointer].Position = 0;
-                                byte[] buffer = tempstreams[pointer].ToArray();
-                                var binaryWriter = new BinaryWriter(stream);
-                                binaryWriter.Write(buffer.Length);
-                                binaryWriter.Write(buffer);
+                            Console.WriteLine($"[93mGenerated MIDI track {++channelID} out of FL track {i + 1}/{tracks.Length}");
 
-                                Console.WriteLine($"Buffered track {pointer + 1}/{proj.Channels.Count} out of FL track {i + 1}/{tracks.Length}");
-                            }
-                            stream.Flush();
-                            /*
-                            ParallelFor(0, proj.Channels.Count, Environment.ProcessorCount, new CancellationToken(false), pointer =>
-                            {
-                                tempstreams[pointer] = new MemoryStream();
-                                var trackWriter = new MidiWriter(tempstreams[pointer]);
-                                trackWriter.Write(fltrk[pointer]);
-                                tempstreams[pointer].Flush();
-                                Console.WriteLine($"Cached track {pointer + 1} out of FL track {i + 1}/{tracks.Length} in RAM");
-                            });
-                            //stream.Flush();
-                            //Console.WriteLine($"Buffered FL track {i+1}/{tracks.Length} in temp file");
-                            for (int k = 0; k < proj.Channels.Count; k++)
-                            {
-                                tempstreams[k].Position = 0;
-                                unchecked
-                                {
-                                    writer.WriteTrack(tempstreams[k]);
-                                }
-                                tempstreams[k].Close();
-                                Console.WriteLine($"[93mWritten {k + 1} tracks");
-                            }*/
-
-                        });
-                        break;
+                        }
                     }
-            }
-            
+                    firstloop = false;
+                }
+                /*for (var pointer = 0; pointer < proj.Channels.Count; pointer++)
+                {
+                    writer.WriteTrack(fltrk[pointer]);
+                }*/
+                //for (var pointer = 0; pointer < proj.Channels.Count; pointer++)
+                ParallelFor(0, proj.Channels.Count, Environment.ProcessorCount * 4, new CancellationToken(false), pointer =>
+                {
+                    tempstreams[pointer] = new MemoryStream();
+                    tempstreams[pointer].Position = 0;
+                    var trackWriter = new MidiWriter(tempstreams[pointer]);
+                    trackWriter.Write(fltrk[pointer]);
+                    tempstreams[pointer].Position = 0;
+                    tempstreams[pointer].Flush();
+                    fltrk[pointer] = null;
+                    var buffer = tempstreams[pointer].ToArray();
+                    tempstreams[pointer] = null;
+                    lock (l)
+                    {
+                        var binaryWriter = new BinaryWriter(stream);
+                        binaryWriter.Write(buffer.Length);
+                        binaryWriter.Write(buffer);
+                        binaryWriter = null;
+                    }
+                    buffer = null;
+                    Console.WriteLine($"Buffered track {pointer + 1}/{proj.Channels.Count} out of FL track {i + 1}/{tracks.Length}");
+                });
+                stream.Close();
+                /*
+                ParallelFor(0, proj.Channels.Count, Environment.ProcessorCount, new CancellationToken(false), pointer =>
+                {
+                    tempstreams[pointer] = new MemoryStream();
+                    var trackWriter = new MidiWriter(tempstreams[pointer]);
+                    trackWriter.Write(fltrk[pointer]);
+                    tempstreams[pointer].Flush();
+                    Console.WriteLine($"Cached track {pointer + 1} out of FL track {i + 1}/{tracks.Length} in RAM");
+                });
+                //stream.Flush();
+                //Console.WriteLine($"Buffered FL track {i+1}/{tracks.Length} in temp file");
+                for (int k = 0; k < proj.Channels.Count; k++)
+                {
+                    tempstreams[k].Position = 0;
+                    unchecked
+                    {
+                        writer.WriteTrack(tempstreams[k]);
+                    }
+                    tempstreams[k].Close();
+                    Console.WriteLine($"[93mWritten {k + 1} tracks");
+                }*/
+
+            });
+
             streams.CloseAllStreams();
-            
-            switch (mode)
+            for (int i = 0; i < tracks.Count(); i++)
             {
-                case "A":
+                var stream = streams.GetStream(i, true);
+                MemoryStream[] tempstreams = new MemoryStream[proj.Channels.Count];
+                var binaryReader = new BinaryReader(stream);
+
+                stream.Position = 0;
+                for (int j = 0; j < proj.Channels.Count; j++)
+                {
+                    int length = binaryReader.ReadInt32();
+                    byte[] buffer = binaryReader.ReadBytes(length);
+                    tempstreams[j] = new MemoryStream(buffer);
+                    Console.WriteLine($"[93mLoaded {j + 1} tracks from buffer");
+                }
+                for (int j = 0; j < proj.Channels.Count; j++)
+                {
+                    tempstreams[j].Position = 0;
+                    unchecked
                     {
-                        for (int i = 0; i < tracks.Count(); i++)
-                        {
-                            var stream = streams.GetStream(i, true);
-
-                            stream.Position = 0;
-                            unchecked
-                            {
-                                writer.WriteTrack(stream);
-                            }
-                            stream.Close();
-                            Console.WriteLine($"[93mWritten {i + 1} tracks");
-                        }
-                        break;
+                        writer.WriteTrack(tempstreams[j]);
                     }
-                case "B":
-                    {
-                        for (int i = 0; i < proj.Channels.Count; i++)
-                        {
-                            var stream = streams.GetStream(i, true);
+                    tempstreams[j].Close();
+                    Console.WriteLine($"[93mWritten {j + i * proj.Channels.Count + 1} tracks");
+                }
 
-                            stream.Position = 0;
-                            unchecked
-                            {
-                                writer.WriteTrack(stream);
-                            }
-                            stream.Close();
-                            Console.WriteLine($"[93mWritten {i + 1} tracks");
-                        }
-                        break;
-                    }
-                case "C":
-                    {
-                        for (int i = 0; i < tracks.Count(); i++)
-                        {
-                            var stream = streams.GetStream(i, true);
-                            MemoryStream[] tempstreams = new MemoryStream[proj.Channels.Count];
-                            var binaryReader = new BinaryReader(stream);
-
-                            stream.Position = 0;
-                            for (int j = 0; j < proj.Channels.Count; j++)
-                            {
-                                int length = binaryReader.ReadInt32();
-                                byte[] buffer = binaryReader.ReadBytes(length);
-                                tempstreams[j] = new MemoryStream(buffer);
-                                Console.WriteLine($"[93mLoaded {j + 1} tracks from buffer");
-                            }
-                            for (int j = 0; j < proj.Channels.Count; j++)
-                            {
-                                tempstreams[j].Position = 0;
-                                unchecked
-                                {
-                                    writer.WriteTrack(tempstreams[j]);
-                                }
-                                tempstreams[j].Close();
-                                Console.WriteLine($"[93mWritten {j + i * proj.Channels.Count + 1} tracks");
-                            }
-
-                        }
-                        break;
-                    }
             }
             writer.Close();
             streams.CloseAllStreams();
             streams.Dispose();
             File.Delete(tempFile);
             Console.WriteLine("[92mConversion completed! \n");
-            Console.WriteLine("[107m[97m-[31m\n ==================================================================== [[5m Notice [25m] ==================================================================== ");
-            Console.WriteLine("[97m-");
-            Console.WriteLine("[34m[22m This tool does not support exporting automations and MIDI CC. Only note events can be exported. ");
+            Console.WriteLine("[107m[97m---------------------------------------------------------------------------------------------------------------------------------------------------------------[31m");
+            Console.WriteLine(" ==================================================================== [[5m Notice [25m] ==================================================================== ");
+            Console.WriteLine("[97m-[34m");
+            Console.WriteLine("[22m This tool does not support exporting automations and MIDI CC. Only note events can be exported. ");
             Console.WriteLine(" If you used any of these, you must export them separately and merge them with either CJCAMM or SAFC or whatever. ");
             Console.WriteLine(" Below is a guide on how to export a midi file that contains only automation clips and MIDI CC in FL Studio 20.7: ");
             Console.WriteLine("[97m-[34m");
@@ -548,7 +369,7 @@ namespace flp2midi
         }
         static void GetArgs(string[] args)
         {
-            for (var i = 2; i < args.Length; i++)
+            for (var i = 1; i < args.Length; i++)
             {
                 switch (args[i])
                 {

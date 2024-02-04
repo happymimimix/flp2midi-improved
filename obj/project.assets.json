@@ -1,10 +1,10 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {
+    ".NETCoreApp,Version=v3.1": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -14,7 +14,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -23,10 +23,10 @@
         }
       }
     },
-    "net5.0/linux-arm": {
+    ".NETCoreApp,Version=v3.1/linux-arm": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -36,7 +36,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -45,10 +45,10 @@
         }
       }
     },
-    "net5.0/linux-x64": {
+    ".NETCoreApp,Version=v3.1/linux-x64": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -58,7 +58,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -67,10 +67,10 @@
         }
       }
     },
-    "net5.0/osx-x64": {
+    ".NETCoreApp,Version=v3.1/osx-x64": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -80,7 +80,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -89,10 +89,10 @@
         }
       }
     },
-    "net5.0/win-arm": {
+    ".NETCoreApp,Version=v3.1/win-arm": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -102,7 +102,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -111,10 +111,10 @@
         }
       }
     },
-    "net5.0/win-x64": {
+    ".NETCoreApp,Version=v3.1/win-x64": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -124,7 +124,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -133,10 +133,10 @@
         }
       }
     },
-    "net5.0/win-x86": {
+    ".NETCoreApp,Version=v3.1/win-x86": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -146,7 +146,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -169,7 +169,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net5.0": [
+    ".NETCoreApp,Version=v3.1": [
       "MIDIModificationFramework >= 1.0.0",
       "Monad.FLParser >= 1.0.0"
     ]
@@ -179,7 +179,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "1.5.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\Administrator\\Documents\\flp2mid\\flp2midi.csproj",
       "projectName": "flp2midi",
@@ -196,15 +196,15 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net5.0"
+        "netcoreapp3.1"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
             "C:\\Users\\Administrator\\Documents\\flp2mid\\external\\FLParser\\Monad.FLParser.csproj": {
               "projectPath": "C:\\Users\\Administrator\\Documents\\flp2mid\\external\\FLParser\\Monad.FLParser.csproj"
@@ -214,16 +214,11 @@
             }
           }
         }
-      },
-      "warningProperties": {
-        "warnAsError": [
-          "NU1605"
-        ]
       }
     },
     "frameworks": {
-      "net5.0": {
-        "targetAlias": "net5.0",
+      "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "imports": [
           "net461",
           "net462",
@@ -237,71 +232,71 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Runtime.linux-arm",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.linux-x64",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.osx-x64",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-arm",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-x86",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.NETCore.App.Host.linux-arm",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.NETCore.App.Host.linux-x64",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.NETCore.App.Host.osx-x64",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.linux-arm",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.linux-x64",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.osx-x64",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.win-arm",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.win-x64",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.win-x86",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Runtime.win-x86",
-            "version": "[5.0.17, 5.0.17]"
+            "version": "[3.1.32, 3.1.32]"
           }
         ],
         "frameworkReferences": {
