@@ -225,8 +225,7 @@ C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\win-x64\ucrtbase.dll
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\win-x64\MIDIModificationFramework.dll
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\win-x64\Monad.FLParser.dll
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\win-x64\Monad.FLParser.pdb
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\win-x64\MIDIModificationFramework.pdb
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\obj\x64\Release\netcoreapp3.1\win-x64\flp2midi.csproj.AssemblyReference.cache
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\obj\x64\Release\netcoreapp3.1\win-x64\flp2midi.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\obj\x64\Release\netcoreapp3.1\win-x64\flp2midi.AssemblyInfoInputs.cache
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\obj\x64\Release\netcoreapp3.1\win-x64\flp2midi.AssemblyInfo.cs

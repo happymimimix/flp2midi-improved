@@ -7,7 +7,7 @@
   "targets": {
     ".NETCoreApp,Version=v3.1": {},
     ".NETCoreApp,Version=v3.1/win-x64": {
-      "flp2midi/1.5.2": {
+      "flp2midi/1.5.3": {
         "dependencies": {
           "MIDIModificationFramework": "1.0.0",
           "Monad.FLParser": "1.0.0",
@@ -861,7 +861,7 @@
     }
   },
   "libraries": {
-    "flp2midi/1.5.2": {
+    "flp2midi/1.5.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

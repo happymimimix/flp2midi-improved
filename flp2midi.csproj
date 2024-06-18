@@ -7,7 +7,7 @@
     <RuntimeIdentifiers>win-x64;win-x86;win-arm;linux-arm;linux-x64;osx-x64</RuntimeIdentifiers>
     <StartupObject>flp2midi.Program</StartupObject>
     <Authors>Happy_mimimix</Authors>
-    <Version>1.5.2</Version>
+    <Version>1.5.3</Version>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
 

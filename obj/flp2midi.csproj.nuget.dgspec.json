@@ -33,11 +33,6 @@
             "targetAlias": "netstandard2.0",
             "projectReferences": {}
           }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
         }
       },
       "frameworks": {
@@ -94,11 +89,6 @@
             "targetAlias": "netstandard2.0",
             "projectReferences": {}
           }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
         }
       },
       "frameworks": {
@@ -127,7 +117,7 @@
       }
     },
     "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\flp2midi.csproj": {
-      "version": "1.5.2",
+      "version": "1.5.3",
       "restore": {
         "projectUniqueName": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\flp2midi.csproj",
         "projectName": "flp2midi",

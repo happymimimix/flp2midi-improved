@@ -50,7 +50,7 @@ namespace flp2midi
         static void Main(string[] args)
         {
             Console.SetWindowSize(150, 40);
-            Console.WriteLine("[2J[H[0m[1m[90m[96m >  flp2midi | ver1.5.2");
+            Console.WriteLine("[2J[H[0m[1m[90m[96m >  flp2midi | ver1.5.3");
             var handle = GetConsoleWindow();
 
             ShowWindow(handle, SW_SHOW);
@@ -94,7 +94,7 @@ namespace flp2midi
                 process.Start();
                 using (var sw = process.StandardInput)
                 {
-                    sw.WriteLine("Set-Location $PSScriptRoot;Add-Type -AssemblyName System.Windows.Forms;$browsefiles = New-Object System.Windows.Forms.OpenFileDialog;$browsefiles.Filter = \"FL Studio Project Files (*.flp)|*.flp\";$browsefiles.Title = \"Please Select Your FL Studio Project File...\";if ($browsefiles.ShowDialog() -eq 'OK'){;$form = New-Object System.Windows.Forms.Form;$form.Text = \"flp2midi v1.5.2\";$form.Size = New-Object System.Drawing.Size(300,320);$form.StartPosition = \"CenterScreen\";$form.FormBorderStyle = \"FixedToolWindow\";$form.TopMost = $true;$title = New-Object System.Windows.Forms.Label;$title.Font = \"dosis,18\";$title.Text = \"flp2midi v1.5.2\";$title.TextAlign = \"MiddleCenter\";$title.Size = \"300,35\";$title.Location = New-Object System.Drawing.Point(0,20);$text = New-Object System.Windows.Forms.Label;$text.Font = \"dosis,12\";$text.Text = \"options: \";$text.TextAlign = \"MiddleLeft\";$text.Size = \"70,20\";$text.Location = New-Object System.Drawing.Point(15,70);$checkbox1 = New-Object System.Windows.Forms.CheckBox;$checkbox1.Text = \"Enforce mapping color to channel\";$checkbox1.Font = \"dosis,10\";$checkbox1.TextAlign = \"MiddleLeft\";$checkbox1.Size = \"250,20\";$checkbox1.Location = New-Object System.Drawing.Point(15,100);$checkbox2 = New-Object System.Windows.Forms.CheckBox;$checkbox2.Text = \"Echo effect (beta)\";$checkbox2.Font = \"dosis,10\";$checkbox2.TextAlign = \"MiddleLeft\";$checkbox2.Size = \"250,20\";$checkbox2.Location = New-Object System.Drawing.Point(15,130);$checkbox3 = New-Object System.Windows.Forms.CheckBox;$checkbox3.Text = \"Export muted patterns\";$checkbox3.Font = \"dosis,10\";$checkbox3.TextAlign = \"MiddleLeft\";$checkbox3.Size = \"250,20\";$checkbox3.Location = New-Object System.Drawing.Point(15,160);$checkbox4 = New-Object System.Windows.Forms.CheckBox;$checkbox4.Text = \"132 keys\";$checkbox4.Font = \"dosis,10\";$checkbox4.TextAlign = \"MiddleLeft\";$checkbox4.Size = \"250,20\";$checkbox4.Location = New-Object System.Drawing.Point(15,190);$checkbox5 = New-Object System.Windows.Forms.CheckBox;$checkbox5.Text = \"Full velocity\";$checkbox5.Font = \"dosis,10\";$checkbox5.TextAlign = \"MiddleLeft\";$checkbox5.Size = \"250,20\";$checkbox5.Location = New-Object System.Drawing.Point(15,220);$button = New-Object System.Windows.Forms.Button;$button.Text = \"Execute\";$button.Font = \"dosis,12\";$button.TextAlign = \"MiddleCenter\";$button.Location = New-Object System.Drawing.Point(200,250);$button.Add_Click({;$arguments = @();$path = $browsefiles.FileName;$arguments += \"`\"$path`\"\";if ($checkbox1.Checked) { $arguments += \" -c\" };if ($checkbox2.Checked) { $arguments += \" -e\" };if ($checkbox3.Checked) { $arguments += \" -m\" };if ($checkbox4.Checked) { $arguments += \" -x\" };if ($checkbox5.Checked) { $arguments += \" -f\" };$form.Close();Start-Process -FilePath \"" + System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName + "\" -ArgumentList $arguments -Wait;});$form.Controls.Add($title);$form.Controls.Add($text);$form.Controls.Add($checkbox1);$form.Controls.Add($checkbox2);$form.Controls.Add($checkbox3);$form.Controls.Add($checkbox4);$form.Controls.Add($checkbox5);$form.Controls.Add($button);[Windows.Forms.Application]::Run($form);}");
+                    sw.WriteLine("Set-Location $PSScriptRoot;Add-Type -AssemblyName System.Windows.Forms;$browsefiles = New-Object System.Windows.Forms.OpenFileDialog;$browsefiles.Filter = \"FL Studio Project Files (*.flp)|*.flp\";$browsefiles.Title = \"Please Select Your FL Studio Project File...\";if ($browsefiles.ShowDialog() -eq 'OK'){;$form = New-Object System.Windows.Forms.Form;$form.Text = \"flp2midi v1.5.3\";$form.Size = New-Object System.Drawing.Size(300,320);$form.StartPosition = \"CenterScreen\";$form.FormBorderStyle = \"FixedToolWindow\";$form.TopMost = $true;$title = New-Object System.Windows.Forms.Label;$title.Font = \"dosis,18\";$title.Text = \"flp2midi v1.5.3\";$title.TextAlign = \"MiddleCenter\";$title.Size = \"300,35\";$title.Location = New-Object System.Drawing.Point(0,20);$text = New-Object System.Windows.Forms.Label;$text.Font = \"dosis,12\";$text.Text = \"options: \";$text.TextAlign = \"MiddleLeft\";$text.Size = \"70,20\";$text.Location = New-Object System.Drawing.Point(15,70);$checkbox1 = New-Object System.Windows.Forms.CheckBox;$checkbox1.Text = \"Enforce mapping color to channel\";$checkbox1.Font = \"dosis,10\";$checkbox1.TextAlign = \"MiddleLeft\";$checkbox1.Size = \"250,20\";$checkbox1.Location = New-Object System.Drawing.Point(15,100);$checkbox2 = New-Object System.Windows.Forms.CheckBox;$checkbox2.Text = \"Echo effect (beta)\";$checkbox2.Font = \"dosis,10\";$checkbox2.TextAlign = \"MiddleLeft\";$checkbox2.Size = \"250,20\";$checkbox2.Location = New-Object System.Drawing.Point(15,130);$checkbox3 = New-Object System.Windows.Forms.CheckBox;$checkbox3.Text = \"Export muted patterns\";$checkbox3.Font = \"dosis,10\";$checkbox3.TextAlign = \"MiddleLeft\";$checkbox3.Size = \"250,20\";$checkbox3.Location = New-Object System.Drawing.Point(15,160);$checkbox4 = New-Object System.Windows.Forms.CheckBox;$checkbox4.Text = \"132 keys\";$checkbox4.Font = \"dosis,10\";$checkbox4.TextAlign = \"MiddleLeft\";$checkbox4.Size = \"250,20\";$checkbox4.Location = New-Object System.Drawing.Point(15,190);$checkbox5 = New-Object System.Windows.Forms.CheckBox;$checkbox5.Text = \"Full velocity\";$checkbox5.Font = \"dosis,10\";$checkbox5.TextAlign = \"MiddleLeft\";$checkbox5.Size = \"250,20\";$checkbox5.Location = New-Object System.Drawing.Point(15,220);$button = New-Object System.Windows.Forms.Button;$button.Text = \"Execute\";$button.Font = \"dosis,12\";$button.TextAlign = \"MiddleCenter\";$button.Location = New-Object System.Drawing.Point(200,250);$button.Add_Click({;$arguments = @();$path = $browsefiles.FileName;$arguments += \"`\"$path`\"\";if ($checkbox1.Checked) { $arguments += \" -c\" };if ($checkbox2.Checked) { $arguments += \" -e\" };if ($checkbox3.Checked) { $arguments += \" -m\" };if ($checkbox4.Checked) { $arguments += \" -x\" };if ($checkbox5.Checked) { $arguments += \" -f\" };$form.Close();Start-Process -FilePath \"" + System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName + "\" -ArgumentList $arguments -Wait;});$form.Controls.Add($title);$form.Controls.Add($text);$form.Controls.Add($checkbox1);$form.Controls.Add($checkbox2);$form.Controls.Add($checkbox3);$form.Controls.Add($checkbox4);$form.Controls.Add($checkbox5);$form.Controls.Add($button);[Windows.Forms.Application]::Run($form);}");
                 }
                 Thread.Sleep(3000);
                 ShowWindow(handle, SW_HIDE);
@@ -126,8 +126,7 @@ namespace flp2midi
             object l = new object();
             var patternDict = new Dictionary<int, Dictionary<Channel, Note[]>>();
             var channelList = new List<Channel>(proj.Channels);
-            //Parallel.ForEach(proj.Patterns, pat =>
-            foreach(var pat in proj.Patterns)
+            Parallel.ForEach(proj.Patterns, pat =>
             {
                 int id = pat.Id;
                 string name = pat.Name;
@@ -138,7 +137,7 @@ namespace flp2midi
                     byte channel = 0;
                     var colorchan = true;
 
-                    if (c.Data is GeneratorData data) //&& data.GeneratorName.ToLower() == "midi out")
+                    if (c.Data is GeneratorData data && data.GeneratorName.ToLower() == "midi out")
                     {
                         if (data.PluginSettings[29] == 0) colorchan = false;
                         channel = data.PluginSettings[4];
@@ -172,7 +171,7 @@ namespace flp2midi
                     patternDict.Add(id, notes);
                     Console.WriteLine($"[93mFound pattern {id} \"{name}\"");
                 }
-            }
+            });
 
             var tracks = proj.Tracks.Where(t => t.Items.Count != 0).ToArray();
 

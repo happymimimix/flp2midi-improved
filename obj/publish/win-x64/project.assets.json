@@ -179,7 +179,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "1.5.2",
+    "version": "1.5.3",
     "restore": {
       "projectUniqueName": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\flp2midi.csproj",
       "projectName": "flp2midi",

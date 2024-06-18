@@ -276,17 +276,29 @@ namespace Monad.FLParser
 
             switch (eventId)
             {
-                case Enums.Event.DataNewPlugin:
                 case Enums.Event.DataPluginParams:
                     if (slotData != null)
                     {
-                        Console.WriteLine($"Found plugin settings for insert (id {_curInsert.Id})");
                         _curSlot.PluginSettings = reader.ReadBytes(dataLen);
                         _curSlot.Plugin = ParsePluginChunk(slotData.PluginSettings);
+                        Console.WriteLine($"Found plugin settings for insert {_curInsert.Name} (id {_curInsert.Id})");
                     }
                     else
                     {
-                        //if (genData == null) break;
+                        if (genData == null) break;
+                        if (genData.PluginSettings != null)
+                            throw new Exception("Attempted to overwrite plugin");
+                        genData.PluginSettings = reader.ReadBytes(dataLen);
+                        genData.Plugin = ParsePluginChunk(genData.PluginSettings);
+                        Console.WriteLine($"Found plugin settings for channel {genData.GeneratorName} (id {_curChannel.Id})");
+                    }
+                    break;
+                case Enums.Event.DataNewPlugin:
+                    if (genData == null) break;
+                    if (genData.PluginSettings != null)
+                        throw new Exception("Attempted to overwrite plugin");
+                    if (slotData == null && genData.GeneratorName.ToLower() == "sampler")
+                    {
                         Console.WriteLine($"Found plugin settings for {genData.GeneratorName} (id {_curChannel.Id})");
                         genData.PluginSettings = reader.ReadBytes(dataLen);
                         genData.Plugin = ParsePluginChunk(genData.PluginSettings);

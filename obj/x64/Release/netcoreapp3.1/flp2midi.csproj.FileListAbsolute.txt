@@ -5,8 +5,7 @@ C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\flp2midi.dll
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\MIDIModificationFramework.dll
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\Monad.FLParser.dll
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\Monad.FLParser.pdb
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\MIDIModificationFramework.pdb
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\obj\x64\Release\netcoreapp3.1\flp2midi.csproj.AssemblyReference.cache
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\obj\x64\Release\netcoreapp3.1\flp2midi.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\obj\x64\Release\netcoreapp3.1\flp2midi.AssemblyInfoInputs.cache
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\obj\x64\Release\netcoreapp3.1\flp2midi.AssemblyInfo.cs
