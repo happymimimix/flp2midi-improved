@@ -4,7 +4,7 @@
     ".NETCoreApp,Version=v3.1": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -14,7 +14,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -26,7 +26,7 @@
     ".NETCoreApp,Version=v3.1/linux-arm": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -36,7 +36,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -48,7 +48,7 @@
     ".NETCoreApp,Version=v3.1/linux-x64": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -58,7 +58,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -70,7 +70,7 @@
     ".NETCoreApp,Version=v3.1/osx-x64": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -80,7 +80,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -92,7 +92,7 @@
     ".NETCoreApp,Version=v3.1/win-arm": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -102,7 +102,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -114,7 +114,7 @@
     ".NETCoreApp,Version=v3.1/win-x64": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -124,7 +124,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -136,7 +136,7 @@
     ".NETCoreApp,Version=v3.1/win-x86": {
       "MIDIModificationFramework/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/MIDIModificationFramework.dll": {}
         },
@@ -146,7 +146,7 @@
       },
       "Monad.FLParser/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.1",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/Monad.FLParser.dll": {}
         },
@@ -181,11 +181,11 @@
   "project": {
     "version": "1.5.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrator\\Documents\\flp2midi\\flp2midi.csproj",
+      "projectUniqueName": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\flp2midi.csproj",
       "projectName": "flp2midi",
-      "projectPath": "C:\\Users\\Administrator\\Documents\\flp2midi\\flp2midi.csproj",
+      "projectPath": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\flp2midi.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrator\\Documents\\flp2midi\\obj\\",
+      "outputPath": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -206,11 +206,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\Administrator\\Documents\\flp2midi\\external\\FLParser\\Monad.FLParser.csproj": {
-              "projectPath": "C:\\Users\\Administrator\\Documents\\flp2midi\\external\\FLParser\\Monad.FLParser.csproj"
+            "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\external\\FLParser\\Monad.FLParser.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\external\\FLParser\\Monad.FLParser.csproj"
             },
-            "C:\\Users\\Administrator\\Documents\\flp2midi\\external\\MIDIModificationFramework\\MIDIModificationFramework.csproj": {
-              "projectPath": "C:\\Users\\Administrator\\Documents\\flp2midi\\external\\MIDIModificationFramework\\MIDIModificationFramework.csproj"
+            "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\external\\MIDIModificationFramework\\MIDIModificationFramework.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\external\\MIDIModificationFramework\\MIDIModificationFramework.csproj"
             }
           }
         }
