@@ -7,7 +7,7 @@
   "targets": {
     ".NETCoreApp,Version=v3.1": {},
     ".NETCoreApp,Version=v3.1/win-x64": {
-      "flp2midi/1.5.0": {
+      "flp2midi/1.5.2": {
         "dependencies": {
           "MIDIModificationFramework": "1.0.0",
           "Monad.FLParser": "1.0.0",
@@ -101,10 +101,6 @@
           },
           "System.Runtime.dll": {
             "assemblyVersion": "4.2.2.0",
-            "fileVersion": "4.700.22.56512"
-          },
-          "System.Threading.Tasks.Parallel.dll": {
-            "assemblyVersion": "4.0.4.0",
             "fileVersion": "4.700.22.56512"
           }
         },
@@ -293,7 +289,7 @@
     }
   },
   "libraries": {
-    "flp2midi/1.5.0": {
+    "flp2midi/1.5.2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

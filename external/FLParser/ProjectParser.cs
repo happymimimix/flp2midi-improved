@@ -74,11 +74,6 @@ namespace Monad.FLParser
 
                 id = Encoding.ASCII.GetString(reader.ReadBytes(4));
                 len = reader.ReadInt32();
-
-                // sanity check
-                //if (len < 0 || len > 0x10000000)
-                //    throw new FlParseException($"Invalid chunk length: {len}", reader.BaseStream.Position);
-
             } while (id != "FLdt");
         }
 
@@ -249,7 +244,11 @@ namespace Monad.FLParser
                         _project.InitTracks(trackCount);
                     break;
                 case Enums.Event.GeneratorName:
-                    if (genData != null) genData.GeneratorName = unicodeString;
+                    if (genData != null)
+                    {
+                        genData.GeneratorName = unicodeString;
+                        if (genData.GeneratorName == "") genData.GeneratorName = "Sampler";
+                    }
                     break;
                 case Enums.Event.TextInsertName:
                     _curInsert.Name = unicodeString;
@@ -277,20 +276,18 @@ namespace Monad.FLParser
 
             switch (eventId)
             {
+                case Enums.Event.DataNewPlugin:
                 case Enums.Event.DataPluginParams:
                     if (slotData != null)
                     {
-                        OutputLine($"Found plugin settings for insert (id {_curInsert.Id})");
+                        Console.WriteLine($"Found plugin settings for insert (id {_curInsert.Id})");
                         _curSlot.PluginSettings = reader.ReadBytes(dataLen);
                         _curSlot.Plugin = ParsePluginChunk(slotData.PluginSettings);
                     }
                     else
                     {
-                        if (genData == null) break;
-                        if (genData.PluginSettings != null)
-                            throw new Exception("Attempted to overwrite plugin");
-
-                        OutputLine($"Found plugin settings for {genData.GeneratorName} (id {_curChannel.Id})");
+                        //if (genData == null) break;
+                        Console.WriteLine($"Found plugin settings for {genData.GeneratorName} (id {_curChannel.Id})");
                         genData.PluginSettings = reader.ReadBytes(dataLen);
                         genData.Plugin = ParsePluginChunk(genData.PluginSettings);
                     }
@@ -478,7 +475,7 @@ namespace Monad.FLParser
                         var patternId = reader.ReadUInt16();
                         var length = reader.ReadInt32();
                         var track = reader.ReadInt32();
-                        if(_versionMajor == 20)
+                        if(_versionMajor >= 20)
                           track = 499 - track;
                         else
                           track = 198 - track;
@@ -591,6 +588,13 @@ namespace Monad.FLParser
                     var flags = (Enums.InsertFlags)reader.ReadUInt32();
                     _curInsert.Flags = flags;
                     _curSlot = new InsertSlot();  // New insert route, create new slot
+                    break;
+                case (Enums.Event)238: 
+                    //I don't really know what I'm doing but this seems to be fixing the Last channel glitch? Maybe? 
+                    _curChannel = null;
+                    break;
+                default:
+                    OutputLine("Unknown plugin: " + eventId);
                     break;
             }
 
