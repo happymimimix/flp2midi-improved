@@ -1,6 +1,0 @@
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\publish\flp2midi.exe
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\publish\flp2midi.dll
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\publish\flp2midi.deps.json
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\publish\flp2midi.runtimeconfig.json
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\publish\MIDIModificationFramework.dll
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\bin\x64\Release\netcoreapp3.1\publish\Monad.FLParser.dll

@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "dgSpecHash": "zTE2jkxnNWfYcJE4QNRSCgcjNqSCw2B9pLtAcn2XzrxqJ1KmSaiMVoT4p9gWJ7e1BpMy2pJN1hSzq9QiG3OALA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\flp2midi.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\3.1.32\\microsoft.netcore.app.runtime.win-x64.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\3.1.32\\microsoft.netcore.app.runtime.win-x86.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.runtime.win-arm\\3.1.32\\microsoft.netcore.app.runtime.win-arm.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-arm\\3.1.32\\microsoft.netcore.app.runtime.linux-arm.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\3.1.32\\microsoft.netcore.app.runtime.linux-x64.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.runtime.osx-x64\\3.1.32\\microsoft.netcore.app.runtime.osx-x64.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\3.1.32\\microsoft.windowsdesktop.app.runtime.win-x64.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\3.1.32\\microsoft.windowsdesktop.app.runtime.win-x86.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\3.1.32\\microsoft.aspnetcore.app.runtime.win-x64.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\3.1.32\\microsoft.aspnetcore.app.runtime.win-x86.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-arm\\3.1.32\\microsoft.aspnetcore.app.runtime.win-arm.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-arm\\3.1.32\\microsoft.aspnetcore.app.runtime.linux-arm.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\3.1.32\\microsoft.aspnetcore.app.runtime.linux-x64.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.osx-x64\\3.1.32\\microsoft.aspnetcore.app.runtime.osx-x64.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.host.linux-arm\\3.1.32\\microsoft.netcore.app.host.linux-arm.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.1.32\\microsoft.netcore.app.host.linux-x64.3.1.32.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.host.osx-x64\\3.1.32\\microsoft.netcore.app.host.osx-x64.3.1.32.nupkg.sha512"
+  ],
+  "logs": []
+}
