@@ -10,7 +10,7 @@ namespace MIDIModificationFramework.Generator
     {
         public static IEnumerable<T> For<T>(int start, int count, Func<int, T> action)
         {
-            for(int i = start; i < start + count; i++)
+            for (int i = start; i < start + count; i++)
             {
                 yield return action(i);
             }

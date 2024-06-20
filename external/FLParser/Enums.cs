@@ -148,19 +148,19 @@ namespace Monad.FLParser
 
         public enum AutomationMode
         {
-          SingleCurve = 0,
-          DoubleCurve = 1,
-          Hold = 2,
-          Stairs = 3,
-          SmoothStairs = 4,
-          Pulse = 5,
-          Wave = 6,
-          SingleCurve2 = 7,
-          DoubleCurve2 = 8,
-          HalfSine = 9,
-          Smooth = 10,
-          SingleCurve3 = 11,
-          DoubleCurve3 = 12
+            SingleCurve = 0,
+            DoubleCurve = 1,
+            Hold = 2,
+            Stairs = 3,
+            SmoothStairs = 4,
+            Pulse = 5,
+            Wave = 6,
+            SingleCurve2 = 7,
+            DoubleCurve2 = 8,
+            HalfSine = 9,
+            Smooth = 10,
+            SingleCurve3 = 11,
+            DoubleCurve3 = 12
         }
 
         /*public enum FilterType

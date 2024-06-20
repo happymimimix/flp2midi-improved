@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = Monad.FLParser
+build_property.ProjectDir = C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\FLParser\

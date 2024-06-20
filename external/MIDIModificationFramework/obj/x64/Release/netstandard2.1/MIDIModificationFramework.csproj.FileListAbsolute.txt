@@ -1,0 +1,8 @@
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\MIDIModificationFramework\bin\x64\Release\netstandard2.1\MIDIModificationFramework.deps.json
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\MIDIModificationFramework\bin\x64\Release\netstandard2.1\MIDIModificationFramework.dll
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.csproj.AssemblyReference.cache
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.AssemblyInfoInputs.cache
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.AssemblyInfo.cs
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.dll

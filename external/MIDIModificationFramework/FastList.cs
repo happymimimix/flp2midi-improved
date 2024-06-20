@@ -106,7 +106,7 @@ namespace MIDIModificationFramework
 
             public void Dispose()
             {
-                
+
             }
 
             public bool MoveNext()

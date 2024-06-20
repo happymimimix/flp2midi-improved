@@ -11,8 +11,8 @@ namespace MIDIModificationFramework
         public int Track { get; set; }
 
         public TrackNote(int track, byte channel, byte key, byte vel, double start, double end) : base(channel, key, vel, start, end)
-        { 
-            Track = track; 
+        {
+            Track = track;
         }
 
         public TrackNote(int track, Note n) : this(track, n.Channel, n.Key, n.Velocity, n.Start, n.End)

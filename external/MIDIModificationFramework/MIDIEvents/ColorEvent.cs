@@ -9,7 +9,8 @@ namespace MIDIModificationFramework.MIDIEvents
     public class ColorEvent : MIDIEvent
     {
         byte channel = 0x7f;
-        public byte Channel {
+        public byte Channel
+        {
             get => channel;
             set
             {

@@ -13,13 +13,13 @@ namespace MIDIModificationFramework.Generator
         public static IEnumerable<Note> Basic(double length, double noteDensity, Func<double, double, bool> place)
         {
             double size = 1 / noteDensity;
-            for(double i = 0; i < length; i += size)
+            for (double i = 0; i < length; i += size)
             {
                 var end = i + size;
                 if (end > length) end = length;
                 for (byte k = 0; k < 128; k++)
                 {
-                    if (place(k, i)) 
+                    if (place(k, i))
                         yield return new Note(0, k, 1, i, end);
                 }
             }

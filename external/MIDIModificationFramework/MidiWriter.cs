@@ -54,7 +54,7 @@ namespace MIDIModificationFramework
             var bytes = new byte[4096];
             int read;
 
-            while((read = data.Read(bytes, 0, bytes.Length)) != 0)
+            while ((read = data.Read(bytes, 0, bytes.Length)) != 0)
             {
                 writer.Write(bytes, 0, read);
             }

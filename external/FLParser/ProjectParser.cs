@@ -240,7 +240,7 @@ namespace Monad.FLParser
                                        (int.Parse(numbers[2]) << 0);
 
                     var trackCount = _versionMajor <= 12 ? 199 : 500;
-                    if(_project.Tracks.Length != trackCount)
+                    if (_project.Tracks.Length != trackCount)
                         _project.InitTracks(trackCount);
                     break;
                 case Enums.Event.GeneratorName:
@@ -254,13 +254,13 @@ namespace Monad.FLParser
                     _curInsert.Name = unicodeString;
                     break;
                 case Enums.Event.TextDelay:
-                  if(genData != null)
-                  {
-                    genData.Echo = dataBytes[12];
-                    genData.EchoFeed = (uint)((dataBytes[1] << 8) | dataBytes[0]);
-                    genData.EchoTime = (uint)((dataBytes[17] << 8) | dataBytes[16]);
-                  }
-                  break;
+                    if (genData != null)
+                    {
+                        genData.Echo = dataBytes[12];
+                        genData.EchoFeed = (uint)((dataBytes[1] << 8) | dataBytes[0]);
+                        genData.EchoTime = (uint)((dataBytes[17] << 8) | dataBytes[16]);
+                    }
+                    break;
             }
         }
 
@@ -447,16 +447,16 @@ namespace Monad.FLParser
 
                         var channel = _project.Channels[automationChannel];
 
-                        if(paramDestination > _project.Channels.Count)
+                        if (paramDestination > _project.Channels.Count)
                         {
-                          //Console.WriteLine("Tempo Automation Track found, but is currently not supported. Please use SAFC to merge the tempo back");
-                          //break;
-                          channel.Data = new AutomationData // automation on insert slot
-                          {
-                            Parameter = param & 0x7fff
-                            //InsertId = (paramDestination & 0x0FF0) >> 6,  // seems to be out by one
-                            //SlotId = paramDestination & 0x003F
-                          };
+                            //Console.WriteLine("Tempo Automation Track found, but is currently not supported. Please use SAFC to merge the tempo back");
+                            //break;
+                            channel.Data = new AutomationData // automation on insert slot
+                            {
+                                Parameter = param & 0x7fff
+                                //InsertId = (paramDestination & 0x0FF0) >> 6,  // seems to be out by one
+                                //SlotId = paramDestination & 0x003F
+                            };
                         }
 
                         if ((paramDestination & 0x2000) == 0 && paramDestination < _project.Channels.Count)  // Automation on channel
@@ -487,10 +487,10 @@ namespace Monad.FLParser
                         var patternId = reader.ReadUInt16();
                         var length = reader.ReadInt32();
                         var track = reader.ReadInt32();
-                        if(_versionMajor >= 20)
-                          track = 499 - track;
+                        if (_versionMajor >= 20)
+                            track = 499 - track;
                         else
-                          track = 198 - track;
+                            track = 198 - track;
                         var unknown1 = reader.ReadUInt16();
                         var itemFlags = reader.ReadUInt16();
                         var unknown3 = reader.ReadUInt32();
@@ -517,27 +517,28 @@ namespace Monad.FLParser
                             var startOffset = reader.ReadInt32();
                             var endOffset = reader.ReadInt32();
 
-                            if((patternId - patternBase - 1) > _project.Patterns.Count)
+                            if ((patternId - patternBase - 1) > _project.Patterns.Count)
                             {
-                              Console.WriteLine("Pattern found on track " + (track) + ", but it seems to be empty. Skipping...");
-                              break;
+                                Console.WriteLine("Pattern found on track " + (track) + ", but it seems to be empty. Skipping...");
+                                break;
                             }
 
                             try
                             {
-                              _project.Tracks[track].Items.Add(new PatternPlaylistItem
-                              {
-                                Position = startTime,
-                                Length = length,
-                                StartOffset = startOffset,
-                                EndOffset = endOffset,
-                                Pattern = _project.Patterns[patternId - patternBase - 1],
-                                Muted = muted
-                              });
-                            } catch(Exception e)
+                                _project.Tracks[track].Items.Add(new PatternPlaylistItem
+                                {
+                                    Position = startTime,
+                                    Length = length,
+                                    StartOffset = startOffset,
+                                    EndOffset = endOffset,
+                                    Pattern = _project.Patterns[patternId - patternBase - 1],
+                                    Muted = muted
+                                });
+                            }
+                            catch (Exception)
                             {
-                              Console.WriteLine("Pattern found on track " + (track) + ", but it seems to be empty. Skipping...");
-                              break;
+                                Console.WriteLine("Pattern found on track " + (track) + ", but it seems to be empty. Skipping...");
+                                break;
                             }
                         }
                     }
@@ -601,7 +602,7 @@ namespace Monad.FLParser
                     _curInsert.Flags = flags;
                     _curSlot = new InsertSlot();  // New insert route, create new slot
                     break;
-                case (Enums.Event)238: 
+                case (Enums.Event)238:
                     //I don't really know what I'm doing but this seems to be fixing the Last channel glitch? Maybe? 
                     _curChannel = null;
                     break;
@@ -624,7 +625,7 @@ namespace Monad.FLParser
 
                 if (pluginType != Enums.PluginType.Vst)
                 {
-                  return null;
+                    return null;
                 }
 
                 while (reader.BaseStream.Position < reader.BaseStream.Length)

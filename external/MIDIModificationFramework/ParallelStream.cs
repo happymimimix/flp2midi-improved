@@ -59,8 +59,6 @@ namespace MIDIModificationFramework
         long streampos;
         ParallelStream pstream;
 
-        bool locked = false;
-
         public ParallelStreamIO(long length, List<long> locations, Func<long> getNewChunk, Stream stream, ParallelStream pstream)
         {
             this.length = length;
@@ -122,7 +120,7 @@ namespace MIDIModificationFramework
                 return read;
             }
         }
-        
+
         public override long Seek(long offset, SeekOrigin origin)
         {
             if (origin == SeekOrigin.Begin) Position = offset;
@@ -159,7 +157,7 @@ namespace MIDIModificationFramework
                     if (w > currentChunkAvailableRead)
                     {
                         currentChunkSize += w - currentChunkAvailableRead;
-                        if(Position + w < currentChunkSize)
+                        if (Position + w < currentChunkSize)
                         { }
                         length += w - currentChunkAvailableRead;
                         WriteChunkSize(locations[(int)currentChunk], currentChunkSize);

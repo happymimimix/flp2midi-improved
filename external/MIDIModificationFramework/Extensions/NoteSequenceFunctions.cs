@@ -54,7 +54,7 @@ namespace MIDIModificationFramework
                 {
                     var nc = n.Clone() as T;
                     nc.SetStartOnly(time);
-                    if(nc.Length < 0.00000001) continue;
+                    if (nc.Length < 0.00000001) continue;
                     yield return nc;
                 }
                 else
@@ -74,7 +74,7 @@ namespace MIDIModificationFramework
                 {
                     var nc = n.Clone() as T;
                     nc.End = time;
-                    if(nc.Length < 0.00000001) continue;
+                    if (nc.Length < 0.00000001) continue;
                     yield return nc;
                 }
                 else

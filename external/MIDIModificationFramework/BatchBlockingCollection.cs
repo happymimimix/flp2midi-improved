@@ -36,7 +36,7 @@ namespace MIDIModificationFramework
 
         public void Add(T item, CancellationToken cancel)
         {
-            if (IsComplete) 
+            if (IsComplete)
                 throw new ObjectDisposedException("Already completed adding");
             buffer.Add(item);
             currentBatchSize++;
@@ -63,7 +63,7 @@ namespace MIDIModificationFramework
 
         public void Complete()
         {
-            if(currentBatchSize > 0)
+            if (currentBatchSize > 0)
             {
                 data.Add(buffer);
                 buffer = new FastList<T>();

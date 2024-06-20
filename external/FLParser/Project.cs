@@ -6,11 +6,10 @@ namespace Monad.FLParser
     public class Project
     {
         public const int MaxInsertCount = 127;
-        //public const int MaxTrackCount = 499; //No longer used
 
         public int MainVolume { get; set; } = 300;
         public int MainPitch { get; set; } = 0;
-        public int Ppq { get; set; } = 0;
+        public int Ppq { get; set; } = 96;
         public double Tempo { get; set; } = 140;
         public string ProjectTitle { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
@@ -59,12 +58,12 @@ namespace Monad.FLParser
 
         internal void InitTracks(int count)
         {
-          Tracks = new Track[count];
+            Tracks = new Track[count];
 
-          for(var i = 0; i < Tracks.Length; i++)
-          {
-            Tracks[i] = new Track();
-          }
+            for (var i = 0; i < Tracks.Length; i++)
+            {
+                Tracks[i] = new Track();
+            }
         }
     }
 }

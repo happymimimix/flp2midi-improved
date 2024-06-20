@@ -2,6 +2,7 @@
   "profiles": {
     "flp2midi": {
       "commandName": "Project",
+      "commandLineArgs": "\"E:\\Destruction321_20.flp\"",
       "nativeDebugging": true
     }
   }

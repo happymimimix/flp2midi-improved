@@ -25,8 +25,6 @@ namespace MIDIModificationFramework
         Stream reader;
         DiskReadProvider readProvider;
 
-        int readBufferSize = 100000;
-
         public BufferByteReader GetTrackByteReader(int track)
         {
             return new BufferByteReader(readProvider, 100000, TrackLocations[track].Start, TrackLocations[track].Length);
@@ -69,8 +67,6 @@ namespace MIDIModificationFramework
         {
             for (int i = 0; i < TrackCount; i++) yield return GetTrack(i);
         }
-
-        string filepath;
 
         public MidiFile(Stream stream, int readBufferSize)
         {

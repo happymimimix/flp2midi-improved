@@ -14,7 +14,7 @@ namespace MIDIModificationFramework
         public byte Channel { get; set; }
         public byte Key { get; set; }
         public byte Velocity { get; set; }
-        
+
         public double End
         {
             get => Start + length;
@@ -29,7 +29,7 @@ namespace MIDIModificationFramework
             get => length;
             set
             {
-                if (value < -0.00000001) 
+                if (value < -0.00000001)
                     throw new ArgumentException("Note can not have a negative length");
                 length = value;
             }

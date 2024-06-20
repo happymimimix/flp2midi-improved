@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MIDIModificationFramework.MIDIEvents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MIDIModificationFramework.MIDIEvents;
 
 namespace MIDIModificationFramework.Generator
 {
