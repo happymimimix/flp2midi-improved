@@ -1,6 +1,5 @@
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\FLParser\bin\x64\Release\netstandard2.1\Monad.FLParser.deps.json
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\FLParser\bin\x64\Release\netstandard2.1\Monad.FLParser.dll
-C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\FLParser\obj\x64\Release\netstandard2.1\Monad.FLParser.csproj.AssemblyReference.cache
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\FLParser\obj\x64\Release\netstandard2.1\Monad.FLParser.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\FLParser\obj\x64\Release\netstandard2.1\Monad.FLParser.AssemblyInfoInputs.cache
 C:\Users\Administrator\Downloads\flp2midi-improved-master\github\external\FLParser\obj\x64\Release\netstandard2.1\Monad.FLParser.AssemblyInfo.cs

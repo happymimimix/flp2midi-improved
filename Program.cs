@@ -31,24 +31,22 @@ namespace flp2midi
         private const int SW_HIDE = 0;
         private const int SW_SHOW = 5;
 
-        private static IEnumerable<Note> EchoNotes(IEnumerable<Note> notes, byte echoamount, uint feed, uint time, int ppq)
+        static IEnumerable<Note> EchoNotes(IEnumerable<Note> notes, byte echoamount, uint feed, uint time, int ppq)
         {
-            if (feed == 0)
+            if (feed == 0) return notes;
+            List<IEnumerable<Note>> echos = new List<IEnumerable<Note>>();
+
+            var echoed = 0;
+
+            for (int i = 1; i < echoamount; i++)
             {
-                return notes;
+                notes = notes.OffsetTime((time * ppq) / 96.0 / 2);
+                notes = notes.Select(note => new Note(note.Channel, note.Key, (byte)(note.Velocity / (12800.0 / feed / Math.Sqrt(Math.E))), note.Start, note.End));
+                echoed += notes.Count();
+                echos.Add(notes);
             }
-            List<Note> echoedNotes = new List<Note>();
-            foreach (Note note in notes)
-            {
-                echoedNotes.Add(note);
-                for (int i = 1; i < echoamount; i++)
-                {
-                    Note echoedNote = new Note(note.Channel, note.Key, (byte)(note.Velocity / (12800.0 / feed / Math.Sqrt(Math.E))), note.Start + (time * ppq / 96.0 / 2) * i, note.End + (time * ppq / 96.0 / 2) * i);
-                    echoedNotes.Add(echoedNote);
-                }
-            }
-            Console.WriteLine($"[93mEchoed {echoedNotes.Count - notes.Count()} notes");
-            return echoedNotes;
+            Console.WriteLine($"[93mEchoed {echoed} notes");
+            return echos.MergeAll();
         }
 
         private static void Main(string[] args)
