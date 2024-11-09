@@ -1,7 +1,0 @@
-D:\flp2midi-improved\external\MIDIModificationFramework\bin\x64\Release\netstandard2.1\MIDIModificationFramework.deps.json
-D:\flp2midi-improved\external\MIDIModificationFramework\bin\x64\Release\netstandard2.1\MIDIModificationFramework.dll
-D:\flp2midi-improved\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.GeneratedMSBuildEditorConfig.editorconfig
-D:\flp2midi-improved\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.AssemblyInfoInputs.cache
-D:\flp2midi-improved\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.AssemblyInfo.cs
-D:\flp2midi-improved\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.csproj.CoreCompileInputs.cache
-D:\flp2midi-improved\external\MIDIModificationFramework\obj\x64\Release\netstandard2.1\MIDIModificationFramework.dll
