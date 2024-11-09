@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jTtCIdb1tpPBvv+It9O01QbOlam3KosFVY0Eh5rHQVPO1RzhpLnCIqAgfwEI2VQ80qZVwper9heC4LHTUca5KA==",
+  "dgSpecHash": "1dLqDQjcTyq887bPnbql20lQbOYQzSenPT2ZYELVxcMKZjWeBvTsuPe5/LSB263poux0jeewyBlRH/rlTGs8+g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\flp2midi.csproj",
+  "projectFilePath": "D:\\flp2midi-improved\\flp2midi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\3.1.32\\microsoft.netcore.app.runtime.linux-x64.3.1.32.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.1.32\\microsoft.netcore.app.host.linux-x64.3.1.32.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\external\\FLParser\\Monad.FLParser.csproj": {}
+    "D:\\flp2midi-improved\\external\\FLParser\\Monad.FLParser.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\external\\FLParser\\Monad.FLParser.csproj": {
+    "D:\\flp2midi-improved\\external\\FLParser\\Monad.FLParser.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\external\\FLParser\\Monad.FLParser.csproj",
+        "projectUniqueName": "D:\\flp2midi-improved\\external\\FLParser\\Monad.FLParser.csproj",
         "projectName": "Monad.FLParser",
-        "projectPath": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\external\\FLParser\\Monad.FLParser.csproj",
+        "projectPath": "D:\\flp2midi-improved\\external\\FLParser\\Monad.FLParser.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Administrator\\Downloads\\flp2midi-improved-master\\github\\external\\FLParser\\obj\\",
+        "outputPath": "D:\\flp2midi-improved\\external\\FLParser\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,11 +33,6 @@
             "targetAlias": "netstandard2.1",
             "projectReferences": {}
           }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
         }
       },
       "frameworks": {

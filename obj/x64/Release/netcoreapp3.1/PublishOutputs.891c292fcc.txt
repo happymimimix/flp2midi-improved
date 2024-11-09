@@ -1,0 +1,6 @@
+D:\flp2midi-improved\bin\x64\Release\netcoreapp3.1\publish\flp2midi.exe
+D:\flp2midi-improved\bin\x64\Release\netcoreapp3.1\publish\flp2midi.dll
+D:\flp2midi-improved\bin\x64\Release\netcoreapp3.1\publish\flp2midi.deps.json
+D:\flp2midi-improved\bin\x64\Release\netcoreapp3.1\publish\flp2midi.runtimeconfig.json
+D:\flp2midi-improved\bin\x64\Release\netcoreapp3.1\publish\MIDIModificationFramework.dll
+D:\flp2midi-improved\bin\x64\Release\netcoreapp3.1\publish\Monad.FLParser.dll

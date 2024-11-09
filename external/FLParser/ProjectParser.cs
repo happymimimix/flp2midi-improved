@@ -42,25 +42,22 @@ namespace Monad.FLParser
                 throw new FlParseException("Invalid magic number", reader.BaseStream.Position);
 
             // header + type
-            var headerLength = reader.ReadInt32();
+            var headerLength = reader.ReadUInt32();
             if (headerLength != 6)
                 throw new FlParseException($"Expected header length 6, not {headerLength}", reader.BaseStream.Position);
 
-            var type = reader.ReadInt16();
+            var type = reader.ReadUInt16();
             if (type != 0) throw new FlParseException($"Type {type} is not supported", reader.BaseStream.Position);
 
             // channels
-            var channelCount = reader.ReadInt16();
-            if (channelCount < 1 || channelCount > 1000)
-                throw new FlParseException($"Invalid number of channels: {channelCount}", reader.BaseStream.Position);
-            for (var i = 0; i < channelCount; i++)
+            var channelCount = reader.ReadUInt16();
+            for (ushort i = 0; i < channelCount; i++)
             {
                 _project.Channels.Add(new Channel { Id = i, Data = new GeneratorData() });
             }
 
             // ppq
-            _project.Ppq = reader.ReadInt16();
-            if (_project.Ppq < 0) throw new Exception($"Invalid PPQ: {_project.Ppq}");
+            _project.Ppq = reader.ReadUInt16();
         }
 
         private void ParseFldt(BinaryReader reader)
