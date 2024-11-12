@@ -327,8 +327,7 @@ namespace Monad.FLParser
                     {
                         var pos = reader.ReadInt32();
                         var unknown1 = reader.ReadInt16();
-                        var ch = reader.ReadByte();
-                        var unknown2 = reader.ReadByte();
+                        var ch = reader.ReadUInt16();
                         var length = reader.ReadInt32();
                         var key = reader.ReadByte();
                         var unknown3 = reader.ReadInt16();

@@ -1,0 +1,47 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "flp2midi/1.5.4": {
+        "dependencies": {
+          "MIDIModificationFramework": "1.0.0",
+          "Monad.FLParser": "1.0.0"
+        },
+        "runtime": {
+          "flp2midi.dll": {}
+        }
+      },
+      "MIDIModificationFramework/1.0.0": {
+        "runtime": {
+          "MIDIModificationFramework.dll": {}
+        }
+      },
+      "Monad.FLParser/1.0.0": {
+        "runtime": {
+          "Monad.FLParser.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "flp2midi/1.5.4": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MIDIModificationFramework/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Monad.FLParser/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

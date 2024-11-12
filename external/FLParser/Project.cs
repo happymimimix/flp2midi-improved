@@ -31,7 +31,7 @@ namespace Monad.FLParser
             }
 
             Inserts[0].Name = "Master";
-            InitTracks(199);
+            InitTracks(500);
         }
 
         public static Project Load(string path, bool verbose)
