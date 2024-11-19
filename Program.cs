@@ -27,6 +27,11 @@ namespace flp2midi
         private static extern IntPtr GetConsoleWindow();
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        static extern IntPtr GetStdHandle(uint nStdHandle);
+        static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
+
+        const uint STD_OUTPUT_HANDLE = 0xFFFFFFF5;
+        const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
 
         private const int SW_HIDE = 0;
         private const int SW_SHOW = 5;
@@ -56,6 +61,9 @@ namespace flp2midi
         {
             unsafe
             {
+                IntPtr hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+                uint dwMode = 0;
+                SetConsoleMode(hOut, ENABLE_VIRTUAL_TERMINAL_PROCESSING);
                 Console.SetWindowSize(150, 40);
                 Console.WriteLine("[2J[H[0m[1m[90m[96m >  flp2midi | ver1.6.1");
                 IntPtr handle = GetConsoleWindow();
