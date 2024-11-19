@@ -145,18 +145,18 @@ namespace flp2midi
                 int CHANNEL_COUNT = FLPROJ.Channels.Count;
                 Track[] TRACKS = FLPROJ.Tracks.Where(t => t.Items.Count != 0).ToArray();
                 int TRACK_COUNT = TRACKS.Length;
-                int PPQ = FLPROJ.Ppq;
+                ushort PPQ = FLPROJ.Ppq;
                 MidiWriter writer = new MidiWriter(Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileName(filePath) + ".mid"));
                 Console.WriteLine($"[92mProject PPQ: {PPQ}");
-                Console.WriteLine($"[92mProject BPM: {(int)(60000000.0 / FLPROJ.Tempo)}");
+                Console.WriteLine($"[92mProject BPM: {FLPROJ.Tempo}");
                 writer.Init((ushort)PPQ);
                 writer.InitTrack();
-                writer.Write(new TempoEvent(0, (int)(60000000.0 / FLPROJ.Tempo)));
+                writer.Write(new TempoEvent(0, (int)(60000000.0/FLPROJ.Tempo)));
+                writer.Write(new TextEvent(0, (byte)(TextEventType.TrackName), System.Text.Encoding.UTF8.GetBytes("Conductor")));
                 writer.EndTrack();
                 FLPROJ = null; //Unload unnecessary parts of the project
                 Console.WriteLine("[95mCollecting garbage..."); GC.Collect(); GC.WaitForPendingFinalizers(); Console.WriteLine("[95mGarbage collected! ");
 
-                object l = new object();
                 ConcurrentDictionary<int, Dictionary<Channel, Note[]>> patternDict = new ConcurrentDictionary<int, Dictionary<Channel, Note[]>>();
                 Parallel.ForEach(PATTERNS, pat =>
                 {
@@ -208,13 +208,15 @@ namespace flp2midi
                 PATTERNS = null; // Free memory
                 CHANNELS = null;
                 Console.WriteLine("[95mCollecting garbage..."); GC.Collect(); GC.WaitForPendingFinalizers(); Console.WriteLine("[95mGarbage collected! ");
-
+                ushort Processed = 0;
+                ushort Converted = 0;
+                ushort Buffered = 0;
+                object locker = new object();
                 ParallelFor(0, TRACK_COUNT, Environment.ProcessorCount, new CancellationToken(false), i =>
-                //for (int i = 0; i < TRACK_COUNT; i++)
                 {
                     Track track = TRACKS[i];
                     bool firstloop = true;
-                    BufferedStream stream = new BufferedStream(streams.GetStream(i), 1 << 10);
+                    BufferedStream stream = new BufferedStream(streams.GetStream(i), 1 << 29);
                     List<IEnumerable<Note>> fltrk = new List<IEnumerable<Note>>();
                     MemoryStream[] tempstreams = new MemoryStream[CHANNEL_COUNT];
                     for (int idx = 0; idx < tempstreams.Length; idx++)
@@ -223,7 +225,7 @@ namespace flp2midi
                     }
                     foreach (IPlaylistItem item in track.Items)
                     {
-                        int channelID = 0;
+                        ushort channelID = 0;
                         if (item is PatternPlaylistItem && (item.Muted == false || Muted))
                         {
                             PatternPlaylistItem pi = item as PatternPlaylistItem;
@@ -251,7 +253,10 @@ namespace flp2midi
                                 {
                                     fltrk[channelID] = fltrk[channelID].MergeWith(shifted);
                                 }
-                                Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {i + 1}/{TRACK_COUNT}");
+                                lock (locker)
+                                {
+                                    Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {++Processed}/{TRACK_COUNT}");
+                                }
                             }
                         }
                         else
@@ -262,14 +267,19 @@ namespace flp2midi
                                 {
                                     fltrk.Add(new List<Note>());
                                 }
-                                Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {i + 1}/{TRACK_COUNT}");
+                                lock (locker)
+                                {
+                                    Console.WriteLine($"[93mProcessed MIDI track {++channelID} in FL playlist track {++Processed}/{TRACK_COUNT}");
+                                }
                             }
                         }
                         firstloop = false;
                     }
+                    object locker2 = new object();
                     ParallelFor(0, CHANNEL_COUNT, Environment.ProcessorCount, new CancellationToken(false), pointer =>
-                    //for (int pointer = 0; pointer < CHANNEL_COUNT; pointer++)
                     {
+                        unchecked
+                        {
                         MemoryStream tempstream = tempstreams[pointer];
                         BufferedStream bufferedstream = new BufferedStream(tempstream, 1 << 29);
                         MidiWriter trackWriter = new MidiWriter(bufferedstream);
@@ -279,10 +289,16 @@ namespace flp2midi
                         bufferedstream = null;
                         tempstream.Close();
                         tempstream = null;
-                        Console.WriteLine($"[93mConverted track {pointer + 1}/{CHANNEL_COUNT} in FL playlist track {i + 1}/{TRACK_COUNT}");
+                        lock (locker2)
+                        {
+                            Console.WriteLine($"[93mConverted track {pointer + 1}/{CHANNEL_COUNT} in FL playlist track {++Converted}/{TRACK_COUNT}");
+                        }
+                        }
                     });
                     for (int pointer = 0; pointer < CHANNEL_COUNT; pointer++)
                     {
+                        unchecked
+                        {
                         MemoryStream tempstream = tempstreams[pointer];
                         byte[] buffer = tempstream.ToArray();
                         BinaryWriter binaryWriter = new BinaryWriter(stream);
@@ -290,7 +306,11 @@ namespace flp2midi
                         binaryWriter.Write(buffer);
                         buffer = null;
                         binaryWriter = null;
-                        Console.WriteLine($"[93mBuffered track {pointer + 1}/{CHANNEL_COUNT} in FL playlist track {i + 1}/{TRACK_COUNT}");
+                        lock (locker2)
+                        {
+                            Console.WriteLine($"[93mBuffered track {pointer + 1}/{CHANNEL_COUNT} in FL playlist track {++Buffered}/{TRACK_COUNT}");
+                        }
+                        }
                     }
                     fltrk = null;
                     stream.Close();
@@ -324,11 +344,11 @@ namespace flp2midi
                         Console.WriteLine($"[93mWritten {j + i * CHANNEL_COUNT + 1} tracks");
                     }
                 }
-                Console.WriteLine("[95mCollecting garbage..."); GC.Collect(); GC.WaitForPendingFinalizers();
-                Console.WriteLine("[95mGarbage collected! ");
                 writer.Close();
                 streams.CloseAllStreams();
                 streams.Dispose();
+                Console.WriteLine("[95mCollecting garbage..."); GC.Collect(); GC.WaitForPendingFinalizers();
+                Console.WriteLine("[95mGarbage collected! ");
                 File.Delete(tempFile);
                 Console.WriteLine("[92mConversion completed! ");
                 Console.WriteLine("[107m[97m\n[31m");

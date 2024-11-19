@@ -9,7 +9,7 @@ namespace Monad.FLParser
 
         public int MainVolume { get; set; } = 300;
         public int MainPitch { get; set; } = 0;
-        public int Ppq { get; set; } = 96;
+        public ushort Ppq { get; set; } = 96;
         public double Tempo { get; set; } = 140;
         public string ProjectTitle { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
